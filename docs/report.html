@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PLAYGRID - DBMS Project Report (Phase 1, 2 & 3)</title>
+<style>
+  @page {
+    size: A4;
+    margin: 18mm 16mm;
+  }
+  @media print {
+    body {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .page-break {
+      page-break-before: always;
+    }
+  }
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1a1a1a;
+    line-height: 1.45;
+    font-size: 13.5px;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+  }
+  
+  /* Header styling matching UOL sample */
+  .uol-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    padding-bottom: 8px;
+    margin-bottom: 4px;
+  }
+  .uol-logo {
+    width: 68px;
+    height: 68px;
+  }
+  .uol-title-box {
+    flex: 1;
+    margin: 0 15px;
+  }
+  .uol-title-box h1 {
+    font-size: 18px;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: 0.5px;
+    color: #111;
+    text-transform: uppercase;
+  }
+  .uol-title-box h2 {
+    font-size: 13.5px;
+    font-weight: 700;
+    margin: 2px 0 0 0;
+    color: #222;
+  }
+  .uol-title-box h3 {
+    font-size: 12.5px;
+    font-weight: 700;
+    margin: 2px 0 0 0;
+    color: #222;
+  }
+  .black-bar {
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    font-weight: 800;
+    font-size: 13px;
+    padding: 4px 0;
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+  }
+  .presented-by {
+    margin-bottom: 14px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .presented-by strong {
+    font-size: 13.5px;
+  }
+  .section-divider {
+    border: none;
+    border-top: 1px solid #777;
+    margin: 12px 0;
+  }
+  
+  h2.phase-title {
+    font-size: 14.5px;
+    font-weight: 800;
+    margin: 8px 0 2px 0;
+    color: #000;
+    text-transform: uppercase;
+  }
+  h3.project-subtitle {
+    font-size: 13.5px;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+    color: #111;
+  }
+  h4.section-heading {
+    font-size: 13.5px;
+    font-weight: 700;
+    margin: 12px 0 6px 0;
+    color: #000;
+  }
+  h5.sub-heading {
+    font-size: 13px;
+    font-weight: 700;
+    margin: 8px 0 4px 0;
+    color: #111;
+  }
+  p {
+    margin: 0 0 8px 0;
+    text-align: justify;
+  }
+  ul {
+    margin: 0 0 10px 0;
+    padding-left: 22px;
+  }
+  li {
+    margin-bottom: 3px;
+  }
+  
+  /* Tables */
+  table.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8px 0 14px 0;
+    font-size: 12px;
+  }
+  table.data-table th, table.data-table td {
+    border: 1px solid #c0c0c0;
+    padding: 5px 8px;
+    text-align: left;
+  }
+  table.data-table th {
+    background-color: #f2f2f2;
+    font-weight: 700;
+    color: #000;
+  }
+  
+  /* Code and SQL blocks */
+  pre.sql-code {
+    background: #f8f9fa;
+    border: 1px solid #dcdcdc;
+    border-radius: 4px;
+    padding: 8px 10px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 11px;
+    line-height: 1.35;
+    color: #1a1a1a;
+    overflow-x: auto;
+    margin: 6px 0 10px 0;
+    white-space: pre-wrap;
+  }
+  .sql-kw { color: #0033bb; font-weight: bold; }
+  .sql-fn { color: #880088; font-weight: bold; }
+  .sql-str { color: #008800; }
+  .sql-num { color: #c04000; }
+  .sql-comment { color: #777; font-style: italic; }
+  
+  /* Workbench Action Output table */
+  .workbench-log {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 11px;
+    background: #fff;
+    border: 1px solid #b8c0cc;
+    margin: 6px 0 12px 0;
+  }
+  .workbench-log th {
+    background: #edf1f7;
+    border: 1px solid #b8c0cc;
+    padding: 4px 6px;
+    font-size: 11px;
+    color: #333;
+    font-weight: 600;
+  }
+  .workbench-log td {
+    border: 1px solid #d5dae2;
+    padding: 3px 6px;
+    font-size: 10.5px;
+    color: #222;
+  }
+  .status-dot-green {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    background: #28a745;
+    border-radius: 50%;
+    margin-right: 4px;
+  }
+  .status-dot-red {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    background: #dc3545;
+    border-radius: 50%;
+    margin-right: 4px;
+  }
+  
+  /* Workbench Result Grid UI */
+  .wb-grid-container {
+    border: 1px solid #a4b2c2;
+    border-radius: 2px;
+    background: #fff;
+    margin: 6px 0 14px 0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  }
+  .wb-grid-toolbar {
+    background: #eef2f7;
+    border-bottom: 1px solid #b6c2d0;
+    padding: 3px 8px;
+    display: flex;
+    align-items: center;
+    font-size: 11px;
+    color: #444;
+  }
+  .wb-tab {
+    background: #fff;
+    border: 1px solid #b6c2d0;
+    border-bottom: 1px solid #fff;
+    padding: 2px 10px;
+    font-weight: 600;
+    margin-bottom: -4px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .wb-filter-box {
+    margin-left: auto;
+    font-size: 10.5px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .wb-filter-input {
+    border: 1px solid #b6c2d0;
+    background: #fff;
+    border-radius: 2px;
+    padding: 1px 5px;
+    width: 130px;
+    font-size: 10px;
+  }
+  .wb-grid-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 11px;
+  }
+  .wb-grid-table th {
+    background: #f4f6fa;
+    border: 1px solid #c9d2de;
+    padding: 3px 6px;
+    text-align: left;
+    font-size: 11px;
+    color: #222;
+    font-weight: bold;
+  }
+  .wb-grid-table td {
+    border: 1px solid #dce2eb;
+    padding: 2px 6px;
+    font-size: 11px;
+    color: #111;
+  }
+  .wb-grid-table tr:hover td {
+    background: #f9fbfd;
+  }
+  .wb-row-num {
+    background: #f4f6fa;
+    text-align: center;
+    color: #666;
+    width: 24px;
+    font-size: 10px;
+    user-select: none;
+    border-right: 1px solid #b6c2d0;
+  }
+  .null-badge {
+    color: #8892a0;
+    font-style: italic;
+    background: #eceff3;
+    padding: 0 4px;
+    border-radius: 2px;
+    font-size: 9.5px;
+  }
+  
+  /* Mermaid/Diagram container */
+  .diagram-box {
+    border: 1px solid #b8c0cc;
+    background: #fafbfc;
+    padding: 12px;
+    border-radius: 4px;
+    margin: 8px 0 12px 0;
+  }
+  .erd-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    font-size: 10.5px;
+  }
+  .erd-card {
+    border: 1px solid #8e4585;
+    border-radius: 3px;
+    background: #fff;
+    overflow: hidden;
+  }
+  .erd-card-header {
+    background: #8e4585;
+    color: #fff;
+    font-weight: bold;
+    padding: 3px 6px;
+    text-align: center;
+  }
+  .erd-card-body {
+    padding: 4px 6px;
+    line-height: 1.35;
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="uol-header">
+  <svg class="uol-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="46" stroke="#16733a" stroke-width="4" fill="#f4faf5"/>
+    <path d="M50 15 L53 35 L47 35 Z" fill="#16733a"/>
+    <rect x="47" y="35" width="6" height="35" fill="#16733a"/>
+    <rect x="42" y="70" width="16" height="6" rx="2" fill="#16733a"/>
+    <rect x="36" y="76" width="28" height="5" rx="2" fill="#16733a"/>
+    <path d="M30 81 C40 80, 60 80, 70 81 L75 87 C60 86, 40 86, 25 87 Z" fill="#16733a"/>
+    <circle cx="50" cy="22" r="3" fill="#d4af37"/>
+  </svg>
+  <div class="uol-title-box">
+    <h1>THE UNIVERSITY OF LAHORE</h1>
+    <h2>Spring Semester 2026,</h2>
+    <h3>DB-PROJECT 4-F</h3>
+  </div>
+  <svg class="uol-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="50,10 85,30 85,70 50,90 15,70 15,30" stroke="#d4af37" stroke-width="3" fill="#fff9ed"/>
+    <polygon points="50,22 75,37 75,63 50,78 25,63 25,37" stroke="#b32428" stroke-width="2.5" fill="none"/>
+    <circle cx="50" cy="50" r="10" stroke="#d4af37" stroke-width="2" fill="#b32428"/>
+  </svg>
+</div>
+
+<div class="black-bar">PHASE 1, 2 & 3</div>
+
+<div class="presented-by">
+  <strong>Presented By:</strong><br>
+  Furqan Amir (Roll No: 701XXXXX),<br>
+  Project Partner 2 (Roll No: 701XXXXX),<br>
+  Project Partner 3 (Roll No: 701XXXXX)
+</div>
+
+<hr class="section-divider">
+
+<!-- PHASE 1 -->
+<h2 class="phase-title">PHASE 1 – REQUIREMENT ANALYSIS & ERD DESIGN</h2>
+<h3 class="project-subtitle">PLAYGRID — Sports Tournament Management System</h3>
+
+<h4 class="section-heading">1. Introduction / System Description</h4>
+<p>
+Futsal and amateur sports tournaments across Pakistan are expanding rapidly, engaging hundreds of clubs, student athletes, and weekly fixtures. Traditionally, tournament organizers have relied on manual pen-and-paper brackets, uncoordinated messaging groups, and isolated spreadsheets to track team registrations, match scores, player stats, and league tables. This manual approach is slow, lacks transparent auditing, and is highly prone to calculation errors, missing match events, scheduling conflicts, and delayed results.
+</p>
+<p>
+The purpose of the <strong>PLAYGRID Sports Tournament Management System</strong> is to provide an end-to-end, digital, 3NF-normalized relational database management system. PLAYGRID maintains comprehensive records of sports facilities, registered clubs, verified players, referee appointments, live match events (goals, cards, fouls), automated round-robin and knockout standings, and secure player registration fee tracking via local payment channels (JazzCash, EasyPaisa, Bank Transfer). Overall, the goal of this system is to eliminate manual calculation errors, provide instant public leaderboards, reduce paperwork, and enforce role-based access control.
+</p>
+
+<hr class="section-divider">
+
+<h4 class="section-heading">2. Requirement Analysis</h4>
+<p>
+Requirement analysis was carried out to understand the real-world operational workflows of futsal tournaments in major Pakistani cities (Karachi, Lahore, Islamabad) and specify database requirements for transactional consistency, referential integrity, and fast querying.
+</p>
+
+<h5 class="sub-heading">2.1 Functional Requirements</h5>
+<p>The system must be able to:</p>
+<ul>
+  <li>Store and manage sporting venues with surface types (artificial turf, indoor wooden), spectator capacity, and floodlight availability.</li>
+  <li>Maintain tournament definitions with formats (League, Knockout), registration deadlines, prize pools, squad limits, and points rules (3 for Win, 1 for Draw, 0 for Loss).</li>
+  <li>Register clubs with logos, home cities, and club manager owner accounts.</li>
+  <li>Manage player bio details, CNIC verification, dates of birth, kit numbers, and field positions.</li>
+  <li>Track tournament team registrations, approval statuses, and fee payment receipts.</li>
+  <li>Schedule match fixtures with rounds, grounds, kickoff times, and appointed referees.</li>
+  <li>Record granular in-game match events including goals, yellow cards, and red cards with minute stamps.</li>
+  <li>Automatically calculate and rank tournament league standings (Played, Won, Drawn, Lost, GF, GA, GD, Points).</li>
+  <li>Track individual player awards for Top Goal Scorers (Golden Boot) and disciplinary fair play records.</li>
+  <li>Maintain a tamper-evident audit log of administrative actions.</li>
+</ul>
+
+<h5 class="sub-heading">2.2 Non-Functional Requirements</h5>
+<p>The system should:</p>
+<ul>
+  <li>Ensure referential integrity using primary keys, foreign keys, and check constraints.</li>
+  <li>Avoid duplicate records and maintain Third Normal Form (3NF) consistency.</li>
+  <li>Provide sub-second query response times for standings tables and match scoreboards.</li>
+  <li>Maintain data security and restrict unauthorized access through role-based access control.</li>
+  <li>Be scalable to accommodate multiple concurrent tournaments across multiple cities.</li>
+</ul>
+
+<hr class="section-divider">
+
+<h4 class="section-heading">3. Identified Entities</h4>
+<p>After analyzing the requirements of PLAYGRID, the following <strong>10 primary entities</strong> were identified:</p>
+<ol>
+  <li><strong>City</strong> — Administrative host cities and provinces</li>
+  <li><strong>Venue</strong> — Physical grounds, turf types, and facilities</li>
+  <li><strong>User</strong> — System users across roles (Admin, Organizer, Team Manager, Viewer)</li>
+  <li><strong>Tournament</strong> — Championship events, rules, entry fees, and prize pools</li>
+  <li><strong>Team</strong> — Registered futsal and sports clubs</li>
+  <li><strong>Player</strong> — Athletes, CNICs, positions, and bio data</li>
+  <li><strong>Registration</strong> — Tournament participation applications and statuses</li>
+  <li><strong>Payment</strong> — Registration fee payments, gateways, and receipts</li>
+  <li><strong>Referee</strong> — Match officials and licensing tiers</li>
+  <li><strong>Match</strong> — Scheduled fixtures, rounds, grounds, and match scores</li>
+  <li><strong>Match_Event</strong> — In-game occurrences (goals, cards, fouls) with minute stamps</li>
+  <li><strong>Standing</strong> — League standings, goal difference, and point tallies</li>
+</ol>
+<p>These entities cover all major activities performed in sports tournament management.</p>
+
+<div class="page-break"></div>
+
+<h4 class="section-heading">4. Entities with Attributes (PK &amp; FK)</h4>
+
+<h5 class="sub-heading">4.1 City</h5>
+<table class="data-table">
+  <tr><th style="width: 35%;">Attribute</th><th>Description</th></tr>
+  <tr><td><strong>CityID (PK)</strong></td><td>Unique ID of city</td></tr>
+  <tr><td>Name</td><td>City name (Karachi, Lahore, Islamabad, etc.)</td></tr>
+  <tr><td>Province</td><td>Province (Sindh, Punjab, KPK, ICT)</td></tr>
+</table>
+
+<h5 class="sub-heading">4.2 Venue</h5>
+<table class="data-table">
+  <tr><th style="width: 35%;">Attribute</th><th>Description</th></tr>
+  <tr><td><strong>VenueID (PK)</strong></td><td>Unique ID of venue</td></tr>
+  <tr><td>Name</td><td>Arena / Ground name</td></tr>
+  <tr><td>Address</td><td>Street address and locality</td></tr>
+  <tr><td>CityID (FK)</td><td>Reference to City</td></tr>
+  <tr><td>SurfaceType</td><td>Turf type (artificial_turf, indoor_wooden, sports_court)</td></tr>
+  <tr><td>Capacity</td><td>Spectator seating capacity</td></tr>
+  <tr><td>HasFloodlights</td><td>Floodlight availability (TRUE / FALSE)</td></tr>
+</table>
+
+<h5 class="sub-heading">4.3 User</h5>
+<table class="data-table">
+  <tr><th style="width: 35%;">Attribute</th><th>Description</th></tr>
+  <tr><td><strong>UserID (PK)</strong></td><td>Unique ID of user</td></tr>
+  <tr><td>Name</td><td>Full user name</td></tr>
+  <tr><td>Email</td><td>Unique login email address</td></tr>
+  <tr><td>PasswordHash</td><td>Salted password hash</td></tr>
+  <tr><td>Role</td><td>System role (SUPER_ADMIN, ORGANIZER, TEAM_MANAGER, VIEWER)</td></tr>
+  <tr><td>Phone</td><td>Contact phone number</td></tr>
+</table>
+
+<h5 class="sub-heading">4.4 Tournament</h5>
+<table class="data-table">
+  <tr><th style="width: 35%;">Attribute</th><th>Description</th></tr>
+  <tr><td><strong>TournamentID (PK)</strong></td><td>Unique ID of tournament</td></tr>
+  <tr><td>Name</td><td>Championship title</td></tr>
+  <tr><td>Format</td><td>Tournament format (LEAGUE, KNOCKOUT)</td></tr>
+  <tr><td>Status</td><td>Current status (DRAFT, REGISTRATION_OPEN, ONGOING, COMPLETED)</td></tr>
+  <tr><td>StartDate</td><td>Tournament kickoff date</td></tr>
+  <tr><td>EndDate</td><td>Final championship date</td></tr>
+  <tr><td>EntryFeePKR</td><td>Registration entry fee in PKR</td></tr>
+  <tr><td>PrizePoolPKR</td><td>Prize pool in PKR</td></tr>
+  <tr><td>CityID (FK)</td><td>Host city reference</td></tr>
+  <tr><td>OrganizerID (FK)</td><td>Organizer user reference</td></tr>
+</table>
+
+<h5 class="sub-heading">4.5 Team</h5>
+<table class="data-table">
+  <tr><th style="width: 35%;">Attribute</th><th>Description</th></tr>
+  <tr><td><strong>TeamID (PK)</strong></td><td>Unique ID of club</td></tr>
+  <tr><td>Name</td><td>Club name</td></tr>
+  <tr><td>ShortName</td><td>3-4 character abbreviation (e.g. CLS, LYL)</td></tr>
+  <tr><td>CityID (FK)</td><td>Home city reference</td></tr>
+  <tr><td>ManagerID (FK)</td><td>Team manager user reference</td></tr>
+  <tr><td>FoundedYear</td><td>Founding year</td></tr>
+</table>
+
+<h5 class="sub-heading">4.6 Player</h5>
+<table class="data-table">
+  <tr><th style="width: 35%;">Attribute</th><th>Description</th></tr>
+  <tr><td><strong>PlayerID (PK)</strong></td><td>Unique ID of athlete</td></tr>
+  <tr><td>FullName</td><td>Player legal full name</td></tr>
+  <tr><td>CNIC</td><td>Pakistani CNIC identifier</td></tr>
+  <tr><td>DateOfBirth</td><td>Birth date for eligibility</td></tr>
+  <tr><td>PreferredPosition</td><td>Field position (GOALKEEPER, DEFENDER, WINGER, PIVOT)</td></tr>
+  <tr><td>TeamID (FK)</td><td>Rostered club reference</td></tr>
+  <tr><td>KitNumber</td><td>Jersey number (1-99)</td></tr>
+</table>
+
+<h5 class="sub-heading">4.7 Registration</h5>
+<table class="data-table">
+  <tr><th style="width: 35%;">Attribute</th><th>Description</th></tr>
+  <tr><td><strong>RegistrationID (PK)</strong></td><td>Unique registration application ID</td></tr>
+  <tr><td>TournamentID (FK)</td><td>Tournament reference</td></tr>
+  <tr><td>TeamID (FK)</td><td>Registered team reference</td></tr>
+  <tr><td>Status</td><td>Approval state (PENDING, APPROVED, REJECTED)</td></tr>
+  <tr><td>RegisteredAt</td><td>Date &amp; time of application</td></tr>
+</table>
+
+<h5 class="sub-heading">4.8 Payment</h5>
+<table class="data-table">
+  <tr><th style="width: 35%;">Attribute</th><th>Description</th></tr>
+  <tr><td><strong>PaymentID (PK)</strong></td><td>Unique payment ID</td></tr>
+  <tr><td>RegistrationID (FK)</td><td>Associated tournament registration</td></tr>
+  <tr><td>AmountPKR</td><td>Amount paid in PKR</td></tr>
+  <tr><td>PaymentMethod</td><td>Method (JAZZCASH, EASYPAISA, BANK_TRANSFER, CASH)</td></tr>
+  <tr><td>TransactionRef</td><td>Transaction reference / receipt ID</td></tr>
+  <tr><td>Status</td><td>Status (PENDING, VERIFIED, FAILED)</td></tr>
+</table>
+
+<h5 class="sub-heading">4.9 Referee</h5>
+<table class="data-table">
+  <tr><th style="width: 35%;">Attribute</th><th>Description</th></tr>
+  <tr><td><strong>RefereeID (PK)</strong></td><td>Unique referee ID</td></tr>
+  <tr><td>FullName</td><td>Official full name</td></tr>
+  <tr><td>CertificationLevel</td><td>Licence tier (NATIONAL, REGIONAL, LOCAL)</td></tr>
+  <tr><td>CityID (FK)</td><td>City reference</td></tr>
+  <tr><td>Phone</td><td>Contact number</td></tr>
+</table>
+
+<h5 class="sub-heading">4.10 Match</h5>
+<table class="data-table">
+  <tr><th style="width: 35%;">Attribute</th><th>Description</th></tr>
+  <tr><td><strong>MatchID (PK)</strong></td><td>Unique match fixture ID</td></tr>
+  <tr><td>TournamentID (FK)</td><td>Tournament reference</td></tr>
+  <tr><td>RoundNumber</td><td>Round index (1, 2, QF, SF, Final)</td></tr>
+  <tr><td>HomeTeamID (FK)</td><td>Home team reference</td></tr>
+  <tr><td>AwayTeamID (FK)</td><td>Away team reference</td></tr>
+  <tr><td>VenueID (FK)</td><td>Playing ground reference</td></tr>
+  <tr><td>RefereeID (FK)</td><td>Appointed official reference</td></tr>
+  <tr><td>ScheduledAt</td><td>Kickoff timestamp</td></tr>
+  <tr><td>HomeScore</td><td>Goals scored by home team</td></tr>
+  <tr><td>AwayScore</td><td>Goals scored by away team</td></tr>
+  <tr><td>Status</td><td>Fixture status (SCHEDULED, LIVE, COMPLETED, POSTPONED)</td></tr>
+</table>
+
+<h5 class="sub-heading">4.11 Match_Event</h5>
+<table class="data-table">
+  <tr><th style="width: 35%;">Attribute</th><th>Description</th></tr>
+  <tr><td><strong>EventID (PK)</strong></td><td>Unique event ID</td></tr>
+  <tr><td>MatchID (FK)</td><td>Fixture reference</td></tr>
+  <tr><td>TeamID (FK)</td><td>Team reference</td></tr>
+  <tr><td>PlayerID (FK)</td><td>Player reference</td></tr>
+  <tr><td>EventType</td><td>Event type (GOAL, OWN_GOAL, YELLOW_CARD, RED_CARD)</td></tr>
+  <tr><td>Minute</td><td>Match minute (1-50)</td></tr>
+</table>
+
+<h5 class="sub-heading">4.12 Standing</h5>
+<table class="data-table">
+  <tr><th style="width: 35%;">Attribute</th><th>Description</th></tr>
+  <tr><td><strong>StandingID (PK)</strong></td><td>Unique standings record ID</td></tr>
+  <tr><td>TournamentID (FK)</td><td>Tournament reference</td></tr>
+  <tr><td>TeamID (FK)</td><td>Team reference</td></tr>
+  <tr><td>Played / Won / Drawn / Lost</td><td>Match outcome tallies</td></tr>
+  <tr><td>GoalsFor / GoalsAgainst / GoalDifference</td><td>Goal statistics</td></tr>
+  <tr><td>Points</td><td>Accumulated points (Win=3, Draw=1, Loss=0)</td></tr>
+</table>
+
+<div class="page-break"></div>
+
+<h4 class="section-heading">5. Relationships &amp; Cardinality</h4>
+<p>The relationships identified in the ER diagram are:</p>
+<table class="data-table">
+  <tr><th>Relationship</th><th>Description</th><th style="width: 15%;">Cardinality</th></tr>
+  <tr><td>City → Venue</td><td>One city contains many sporting venues</td><td>1 : M</td></tr>
+  <tr><td>City → Team</td><td>One city has many registered clubs</td><td>1 : M</td></tr>
+  <tr><td>City → Tournament</td><td>One city hosts many sports tournaments</td><td>1 : M</td></tr>
+  <tr><td>User (Organizer) → Tournament</td><td>One organizer creates many tournaments</td><td>1 : M</td></tr>
+  <tr><td>User (Manager) → Team</td><td>One team manager oversees one or more teams</td><td>1 : M</td></tr>
+  <tr><td>Tournament → Registration</td><td>One tournament receives many team registrations</td><td>1 : M</td></tr>
+  <tr><td>Team → Registration</td><td>One team submits many registrations over time</td><td>1 : M</td></tr>
+  <tr><td>Registration → Payment</td><td>One registration is verified by one payment</td><td>1 : 1</td></tr>
+  <tr><td>Team → Player</td><td>One team rosters many players</td><td>1 : M</td></tr>
+  <tr><td>Tournament → Match</td><td>One tournament schedules many matches</td><td>1 : M</td></tr>
+  <tr><td>Venue → Match</td><td>One venue grounds many matches</td><td>1 : M</td></tr>
+  <tr><td>Referee → Match</td><td>One certified referee officiates many matches</td><td>1 : M</td></tr>
+  <tr><td>Team (Home) → Match</td><td>One team acts as home side in many matches</td><td>1 : M</td></tr>
+  <tr><td>Team (Away) → Match</td><td>One team acts as away side in many matches</td><td>1 : M</td></tr>
+  <tr><td>Match → Match_Event</td><td>One match produces many granular events</td><td>1 : M</td></tr>
+  <tr><td>Player → Match_Event</td><td>One player generates many match events (goals/cards)</td><td>1 : M</td></tr>
+  <tr><td>Tournament → Standing</td><td>One tournament maintains standings for each enrolled team</td><td>1 : M</td></tr>
+  <tr><td>Team → Standing</td><td>One team occupies standing positions across tournaments</td><td>1 : M</td></tr>
+</table>
+
+<hr class="section-divider">
+
+<h4 class="section-heading">6. ER Diagram</h4>
+<div class="diagram-box">
+  <div class="erd-grid">
+    <div class="erd-card">
+      <div class="erd-card-header">CITIES</div>
+      <div class="erd-card-body">
+        <strong>PK: CityID</strong><br>
+        Name<br>
+        Province
+      </div>
+    </div>
+    <div class="erd-card">
+      <div class="erd-card-header">VENUES</div>
+      <div class="erd-card-body">
+        <strong>PK: VenueID</strong><br>
+        Name, Address<br>
+        <em>FK: CityID</em><br>
+        SurfaceType, Capacity
+      </div>
+    </div>
+    <div class="erd-card">
+      <div class="erd-card-header">USERS</div>
+      <div class="erd-card-body">
+        <strong>PK: UserID</strong><br>
+        Name, Email<br>
+        Role, Phone
+      </div>
+    </div>
+    <div class="erd-card">
+      <div class="erd-card-header">TOURNAMENTS</div>
+      <div class="erd-card-body">
+        <strong>PK: TournamentID</strong><br>
+        Name, Format, Status<br>
+        Dates, EntryFee, Prize<br>
+        <em>FK: CityID, OrganizerID</em>
+      </div>
+    </div>
+    <div class="erd-card">
+      <div class="erd-card-header">TEAMS</div>
+      <div class="erd-card-body">
+        <strong>PK: TeamID</strong><br>
+        Name, ShortName<br>
+        <em>FK: CityID, ManagerID</em><br>
+        FoundedYear
+      </div>
+    </div>
+    <div class="erd-card">
+      <div class="erd-card-header">PLAYERS</div>
+      <div class="erd-card-body">
+        <strong>PK: PlayerID</strong><br>
+        FullName, CNIC, DOB<br>
+        PreferredPosition<br>
+        <em>FK: TeamID</em>, KitNumber
+      </div>
+    </div>
+    <div class="erd-card">
+      <div class="erd-card-header">REGISTRATIONS</div>
+      <div class="erd-card-body">
+        <strong>PK: RegistrationID</strong><br>
+        <em>FK: TournamentID</em><br>
+        <em>FK: TeamID</em><br>
+        Status, RegisteredAt
+      </div>
+    </div>
+    <div class="erd-card">
+      <div class="erd-card-header">PAYMENTS</div>
+      <div class="erd-card-body">
+        <strong>PK: PaymentID</strong><br>
+        <em>FK: RegistrationID</em><br>
+        AmountPKR, Method<br>
+        TransactionRef, Status
+      </div>
+    </div>
+    <div class="erd-card">
+      <div class="erd-card-header">MATCHES</div>
+      <div class="erd-card-body">
+        <strong>PK: MatchID</strong><br>
+        <em>FK: TournamentID, VenueID</em><br>
+        <em>FK: HomeTeamID, AwayTeamID</em><br>
+        Scores, ScheduledAt, Status
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<h4 class="section-heading">7. Normalization (Applied)</h4>
+<p>The database is normalized up to <strong>Third Normal Form (3NF)</strong> by applying the following steps:</p>
+
+<h5 class="sub-heading">First Normal Form (1NF) – Applied</h5>
+<ul>
+  <li>Removed multi-valued attributes and repeating groups.</li>
+  <li>Ensured each column stores single (atomic) values.</li>
+  <li>Created separate atomic rows for each in-game match event instead of comma-separated player strings.</li>
+</ul>
+<p><strong>Application:</strong> A separate table <code>match_events</code> is created. Each row contains <code>MatchID</code>, <code>PlayerID</code>, <code>EventType</code>, and <code>Minute</code>. Multiple goals or bookings in a match are not stored in one column, but as separate atomic records.</p>
+
+<h5 class="sub-heading">Second Normal Form (2NF) – Applied</h5>
+<ul>
+  <li>Removed partial functional dependencies.</li>
+  <li>Ensured all non-key attributes depend on the complete primary key.</li>
+</ul>
+<p><strong>Application:</strong> The relationship between tournaments and teams is resolved using surrogate keys. Rather than placing payment transactions onto a composite <code>(TournamentID, TeamID)</code> key, a dedicated <code>payments</code> table was created with <code>PaymentID</code> as primary key and <code>RegistrationID</code> as a foreign key, ensuring payment amounts and transaction references depend fully on the primary key.</p>
+
+<h5 class="sub-heading">Third Normal Form (3NF) – Applied</h5>
+<ul>
+  <li>Removed transitive dependencies ($X \to Y \to Z$).</li>
+  <li>Ensured non-key attributes depend only on the primary key.</li>
+</ul>
+<p><strong>Application:</strong> City names and provincial jurisdictions are extracted into a separate <code>cities</code> table. <code>venues</code>, <code>teams</code>, and <code>tournaments</code> store only <code>CityID (FK)</code>. Geographic attributes are not repeated inside venue or tournament tables, completely preventing update anomalies.</p>
+
+<h5 class="sub-heading">Final Applied Tables Structure (Simplified)</h5>
+<p>After applying normalization up to 3NF, the final database structure consists of the following tables:</p>
+<ul style="font-family: Consolas, monospace; font-size: 11.5px; line-height: 1.5;">
+  <li><strong>cities</strong> (<u>CityID</u>, Name, Province)</li>
+  <li><strong>venues</strong> (<u>VenueID</u>, Name, Address, CityID FK, SurfaceType, Capacity, HasFloodlights)</li>
+  <li><strong>users</strong> (<u>UserID</u>, Name, Email, PasswordHash, Role, Phone)</li>
+  <li><strong>tournaments</strong> (<u>TournamentID</u>, Name, Format, Status, StartDate, EndDate, EntryFeePKR, PrizePoolPKR, CityID FK, OrganizerID FK)</li>
+  <li><strong>teams</strong> (<u>TeamID</u>, Name, ShortName, CityID FK, ManagerID FK, FoundedYear)</li>
+  <li><strong>players</strong> (<u>PlayerID</u>, FullName, CNIC, DateOfBirth, PreferredPosition, TeamID FK, KitNumber)</li>
+  <li><strong>registrations</strong> (<u>RegistrationID</u>, TournamentID FK, TeamID FK, Status, RegisteredAt)</li>
+  <li><strong>payments</strong> (<u>PaymentID</u>, RegistrationID FK, AmountPKR, PaymentMethod, TransactionRef, Status)</li>
+  <li><strong>referees</strong> (<u>RefereeID</u>, FullName, CertificationLevel, CityID FK, Phone)</li>
+  <li><strong>matches</strong> (<u>MatchID</u>, TournamentID FK, RoundNumber, HomeTeamID FK, AwayTeamID FK, VenueID FK, RefereeID FK, ScheduledAt, HomeScore, AwayScore, Status)</li>
+  <li><strong>match_events</strong> (<u>EventID</u>, MatchID FK, TeamID FK, PlayerID FK, EventType, Minute)</li>
+  <li><strong>standings</strong> (<u>StandingID</u>, TournamentID FK, TeamID FK, Played, Won, Drawn, Lost, GoalsFor, GoalsAgainst, GoalDifference, Points)</li>
+</ul>
+
+<div class="page-break"></div>
+
+<!-- PHASE 2 -->
+<h2 class="phase-title">PHASE 2 — SQL IMPLEMENTATION</h2>
+<h3 class="project-subtitle">PLAYGRID — Sports Tournament Management System</h3>
+
+<h4 class="section-heading">SQL script:</h4>
+<pre class="sql-code"><span class="sql-kw">CREATE DATABASE</span> PlaygridDB;
+<span class="sql-kw">USE</span> PlaygridDB;
+
+<span class="sql-comment">/* =========================================
+   TABLE CREATION (DDL)
+========================================= */</span>
+<span class="sql-kw">CREATE TABLE</span> cities(
+  CityID <span class="sql-kw">INT PRIMARY KEY</span>,
+  Name <span class="sql-kw">VARCHAR</span>(50) <span class="sql-kw">NOT NULL UNIQUE</span>,
+  Province <span class="sql-kw">VARCHAR</span>(50) <span class="sql-kw">NOT NULL</span>
+);
+
+<span class="sql-kw">CREATE TABLE</span> venues(
+  VenueID <span class="sql-kw">INT PRIMARY KEY</span>,
+  Name <span class="sql-kw">VARCHAR</span>(100) <span class="sql-kw">NOT NULL</span>,
+  Address <span class="sql-kw">VARCHAR</span>(150) <span class="sql-kw">NOT NULL</span>,
+  CityID <span class="sql-kw">INT</span>,
+  SurfaceType <span class="sql-kw">VARCHAR</span>(30) <span class="sql-kw">NOT NULL</span>,
+  Capacity <span class="sql-kw">INT NOT NULL</span>,
+  HasFloodlights <span class="sql-kw">BOOLEAN NOT NULL DEFAULT TRUE</span>,
+  <span class="sql-kw">FOREIGN KEY</span> (CityID) <span class="sql-kw">REFERENCES</span> cities(CityID)
+);
+
+<span class="sql-kw">CREATE TABLE</span> users(
+  UserID <span class="sql-kw">INT PRIMARY KEY</span>,
+  Name <span class="sql-kw">VARCHAR</span>(100) <span class="sql-kw">NOT NULL</span>,
+  Email <span class="sql-kw">VARCHAR</span>(150) <span class="sql-kw">NOT NULL UNIQUE</span>,
+  PasswordHash <span class="sql-kw">VARCHAR</span>(255) <span class="sql-kw">NOT NULL</span>,
+  Role <span class="sql-kw">VARCHAR</span>(30) <span class="sql-kw">NOT NULL</span>,
+  Phone <span class="sql-kw">VARCHAR</span>(20)
+);
+
+<span class="sql-kw">CREATE TABLE</span> tournaments(
+  TournamentID <span class="sql-kw">INT PRIMARY KEY</span>,
+  Name <span class="sql-kw">VARCHAR</span>(150) <span class="sql-kw">NOT NULL</span>,
+  Format <span class="sql-kw">VARCHAR</span>(30) <span class="sql-kw">NOT NULL</span>,
+  Status <span class="sql-kw">VARCHAR</span>(30) <span class="sql-kw">NOT NULL</span>,
+  StartDate <span class="sql-kw">DATE NOT NULL</span>,
+  EndDate <span class="sql-kw">DATE NOT NULL</span>,
+  EntryFeePKR <span class="sql-kw">DECIMAL</span>(10,2) <span class="sql-kw">NOT NULL</span>,
+  PrizePoolPKR <span class="sql-kw">DECIMAL</span>(10,2) <span class="sql-kw">NOT NULL</span>,
+  CityID <span class="sql-kw">INT</span>,
+  OrganizerID <span class="sql-kw">INT</span>,
+  <span class="sql-kw">FOREIGN KEY</span> (CityID) <span class="sql-kw">REFERENCES</span> cities(CityID),
+  <span class="sql-kw">FOREIGN KEY</span> (OrganizerID) <span class="sql-kw">REFERENCES</span> users(UserID)
+);
+
+<span class="sql-kw">CREATE TABLE</span> teams(
+  TeamID <span class="sql-kw">INT PRIMARY KEY</span>,
+  Name <span class="sql-kw">VARCHAR</span>(100) <span class="sql-kw">NOT NULL UNIQUE</span>,
+  ShortName <span class="sql-kw">VARCHAR</span>(5) <span class="sql-kw">NOT NULL</span>,
+  CityID <span class="sql-kw">INT</span>,
+  ManagerID <span class="sql-kw">INT</span>,
+  FoundedYear <span class="sql-kw">INT</span>,
+  <span class="sql-kw">FOREIGN KEY</span> (CityID) <span class="sql-kw">REFERENCES</span> cities(CityID),
+  <span class="sql-kw">FOREIGN KEY</span> (ManagerID) <span class="sql-kw">REFERENCES</span> users(UserID)
+);
+
+<span class="sql-kw">CREATE TABLE</span> players(
+  PlayerID <span class="sql-kw">INT PRIMARY KEY</span>,
+  FullName <span class="sql-kw">VARCHAR</span>(100) <span class="sql-kw">NOT NULL</span>,
+  CNIC <span class="sql-kw">VARCHAR</span>(20) <span class="sql-kw">UNIQUE</span>,
+  DateOfBirth <span class="sql-kw">DATE NOT NULL</span>,
+  PreferredPosition <span class="sql-kw">VARCHAR</span>(30) <span class="sql-kw">NOT NULL</span>,
+  TeamID <span class="sql-kw">INT</span>,
+  <span class="sql-kw">FOREIGN KEY</span> (TeamID) <span class="sql-kw">REFERENCES</span> teams(TeamID)
+);
+
+<span class="sql-kw">CREATE TABLE</span> registrations(
+  RegistrationID <span class="sql-kw">INT PRIMARY KEY</span>,
+  TournamentID <span class="sql-kw">INT</span>,
+  TeamID <span class="sql-kw">INT</span>,
+  Status <span class="sql-kw">VARCHAR</span>(30) <span class="sql-kw">NOT NULL</span>,
+  RegisteredAt <span class="sql-kw">TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP</span>,
+  <span class="sql-kw">FOREIGN KEY</span> (TournamentID) <span class="sql-kw">REFERENCES</span> tournaments(TournamentID),
+  <span class="sql-kw">FOREIGN KEY</span> (TeamID) <span class="sql-kw">REFERENCES</span> teams(TeamID)
+);
+
+<span class="sql-kw">CREATE TABLE</span> payments(
+  PaymentID <span class="sql-kw">INT PRIMARY KEY</span>,
+  RegistrationID <span class="sql-kw">INT</span>,
+  AmountPKR <span class="sql-kw">DECIMAL</span>(10,2) <span class="sql-kw">NOT NULL</span>,
+  PaymentMethod <span class="sql-kw">VARCHAR</span>(30) <span class="sql-kw">NOT NULL</span>,
+  TransactionRef <span class="sql-kw">VARCHAR</span>(100) <span class="sql-kw">NOT NULL</span>,
+  Status <span class="sql-kw">VARCHAR</span>(30) <span class="sql-kw">NOT NULL</span>,
+  <span class="sql-kw">FOREIGN KEY</span> (RegistrationID) <span class="sql-kw">REFERENCES</span> registrations(RegistrationID)
+);
+
+<span class="sql-kw">CREATE TABLE</span> referees(
+  RefereeID <span class="sql-kw">INT PRIMARY KEY</span>,
+  FullName <span class="sql-kw">VARCHAR</span>(100) <span class="sql-kw">NOT NULL</span>,
+  CertificationLevel <span class="sql-kw">VARCHAR</span>(30) <span class="sql-kw">NOT NULL</span>,
+  CityID <span class="sql-kw">INT</span>,
+  Phone <span class="sql-kw">VARCHAR</span>(20),
+  <span class="sql-kw">FOREIGN KEY</span> (CityID) <span class="sql-kw">REFERENCES</span> cities(CityID)
+);
+
+<span class="sql-kw">CREATE TABLE</span> matches(
+  MatchID <span class="sql-kw">INT PRIMARY KEY</span>,
+  TournamentID <span class="sql-kw">INT</span>,
+  RoundNumber <span class="sql-kw">INT NOT NULL</span>,
+  HomeTeamID <span class="sql-kw">INT</span>,
+  AwayTeamID <span class="sql-kw">INT</span>,
+  VenueID <span class="sql-kw">INT</span>,
+  RefereeID <span class="sql-kw">INT</span>,
+  ScheduledAt <span class="sql-kw">TIMESTAMP NOT NULL</span>,
+  HomeScore <span class="sql-kw">INT NOT NULL DEFAULT</span> <span class="sql-num">0</span>,
+  AwayScore <span class="sql-kw">INT NOT NULL DEFAULT</span> <span class="sql-num">0</span>,
+  Status <span class="sql-kw">VARCHAR</span>(30) <span class="sql-kw">NOT NULL</span>,
+  <span class="sql-kw">FOREIGN KEY</span> (TournamentID) <span class="sql-kw">REFERENCES</span> tournaments(TournamentID),
+  <span class="sql-kw">FOREIGN KEY</span> (HomeTeamID) <span class="sql-kw">REFERENCES</span> teams(TeamID),
+  <span class="sql-kw">FOREIGN KEY</span> (AwayTeamID) <span class="sql-kw">REFERENCES</span> teams(TeamID),
+  <span class="sql-kw">FOREIGN KEY</span> (VenueID) <span class="sql-kw">REFERENCES</span> venues(VenueID),
+  <span class="sql-kw">FOREIGN KEY</span> (RefereeID) <span class="sql-kw">REFERENCES</span> referees(RefereeID)
+);
+
+<span class="sql-kw">CREATE TABLE</span> match_events(
+  EventID <span class="sql-kw">INT PRIMARY KEY</span>,
+  MatchID <span class="sql-kw">INT</span>,
+  TeamID <span class="sql-kw">INT</span>,
+  PlayerID <span class="sql-kw">INT</span>,
+  EventType <span class="sql-kw">VARCHAR</span>(30) <span class="sql-kw">NOT NULL</span>,
+  Minute <span class="sql-kw">INT NOT NULL</span>,
+  <span class="sql-kw">FOREIGN KEY</span> (MatchID) <span class="sql-kw">REFERENCES</span> matches(MatchID),
+  <span class="sql-kw">FOREIGN KEY</span> (TeamID) <span class="sql-kw">REFERENCES</span> teams(TeamID),
+  <span class="sql-kw">FOREIGN KEY</span> (PlayerID) <span class="sql-kw">REFERENCES</span> players(PlayerID)
+);
+
+<span class="sql-kw">CREATE TABLE</span> standings(
+  StandingID <span class="sql-kw">INT PRIMARY KEY</span>,
+  TournamentID <span class="sql-kw">INT</span>,
+  TeamID <span class="sql-kw">INT</span>,
+  Played <span class="sql-kw">INT NOT NULL DEFAULT</span> <span class="sql-num">0</span>,
+  Won <span class="sql-kw">INT NOT NULL DEFAULT</span> <span class="sql-num">0</span>,
+  Drawn <span class="sql-kw">INT NOT NULL DEFAULT</span> <span class="sql-num">0</span>,
+  Lost <span class="sql-kw">INT NOT NULL DEFAULT</span> <span class="sql-num">0</span>,
+  GoalsFor <span class="sql-kw">INT NOT NULL DEFAULT</span> <span class="sql-num">0</span>,
+  GoalsAgainst <span class="sql-kw">INT NOT NULL DEFAULT</span> <span class="sql-num">0</span>,
+  GoalDifference <span class="sql-kw">INT NOT NULL DEFAULT</span> <span class="sql-num">0</span>,
+  Points <span class="sql-kw">INT NOT NULL DEFAULT</span> <span class="sql-num">0</span>,
+  <span class="sql-kw">FOREIGN KEY</span> (TournamentID) <span class="sql-kw">REFERENCES</span> tournaments(TournamentID),
+  <span class="sql-kw">FOREIGN KEY</span> (TeamID) <span class="sql-kw">REFERENCES</span> teams(TeamID)
+);
+
+<span class="sql-kw">ALTER TABLE</span> players <span class="sql-kw">ADD</span> KitNumber <span class="sql-kw">INT DEFAULT</span> <span class="sql-num">10</span>;
+
+<span class="sql-comment">/* =========================================
+   DATA MANIPULATION (DML)
+========================================= */</span>
+<span class="sql-kw">INSERT INTO</span> cities <span class="sql-kw">VALUES</span>
+(<span class="sql-num">1</span>, <span class="sql-str">'Karachi'</span>, <span class="sql-str">'Sindh'</span>),
+(<span class="sql-num">2</span>, <span class="sql-str">'Lahore'</span>, <span class="sql-str">'Punjab'</span>),
+(<span class="sql-num">3</span>, <span class="sql-str">'Islamabad'</span>, <span class="sql-str">'ICT'</span>),
+(<span class="sql-num">4</span>, <span class="sql-str">'Rawalpindi'</span>, <span class="sql-str">'Punjab'</span>),
+(<span class="sql-num">5</span>, <span class="sql-str">'Peshawar'</span>, <span class="sql-str">'KPK'</span>);
+
+<span class="sql-kw">INSERT INTO</span> venues <span class="sql-kw">VALUES</span>
+(<span class="sql-num">1</span>, <span class="sql-str">'Seaview Futsal Arena'</span>, <span class="sql-str">'Clifton Block 4'</span>, <span class="sql-num">1</span>, <span class="sql-str">'artificial_turf'</span>, <span class="sql-num">350</span>, <span class="sql-kw">TRUE</span>),
+(<span class="sql-num">2</span>, <span class="sql-str">'Model Town Sports Complex'</span>, <span class="sql-str">'Model Town Block J'</span>, <span class="sql-num">2</span>, <span class="sql-str">'indoor_wooden'</span>, <span class="sql-num">500</span>, <span class="sql-kw">TRUE</span>),
+(<span class="sql-num">3</span>, <span class="sql-str">'F-6 Multi-Sport Turf'</span>, <span class="sql-str">'Super Market F-6'</span>, <span class="sql-num">3</span>, <span class="sql-str">'artificial_turf'</span>, <span class="sql-num">250</span>, <span class="sql-kw">TRUE</span>),
+(<span class="sql-num">4</span>, <span class="sql-str">'DHA Phase 5 Cage Ground'</span>, <span class="sql-str">'DHA Phase 5'</span>, <span class="sql-num">2</span>, <span class="sql-str">'artificial_turf'</span>, <span class="sql-num">400</span>, <span class="sql-kw">TRUE</span>),
+(<span class="sql-num">5</span>, <span class="sql-str">'Korangi Sports Arena'</span>, <span class="sql-str">'Sector 31 Korangi'</span>, <span class="sql-num">1</span>, <span class="sql-str">'sports_court'</span>, <span class="sql-num">200</span>, <span class="sql-kw">FALSE</span>);
+
+<span class="sql-kw">INSERT INTO</span> users <span class="sql-kw">VALUES</span>
+(<span class="sql-num">1</span>, <span class="sql-str">'Furqan Amir'</span>, <span class="sql-str">'admin@playgrid.pk'</span>, <span class="sql-str">'$2a$12$e8V9M...'</span>, <span class="sql-str">'SUPER_ADMIN'</span>, <span class="sql-str">'03001234567'</span>),
+(<span class="sql-num">2</span>, <span class="sql-str">'Hamza Malik'</span>, <span class="sql-str">'hamza.organizer@playgrid.pk'</span>, <span class="sql-str">'$2a$12$x4P1...'</span>, <span class="sql-str">'ORGANIZER'</span>, <span class="sql-str">'03112345678'</span>),
+(<span class="sql-num">3</span>, <span class="sql-str">'Usman Tariq'</span>, <span class="sql-str">'manager.clifton@gmail.com'</span>, <span class="sql-str">'$2a$12$q7K2...'</span>, <span class="sql-str">'TEAM_MANAGER'</span>, <span class="sql-str">'03213456789'</span>),
+(<span class="sql-num">4</span>, <span class="sql-str">'Bilal Raza'</span>, <span class="sql-str">'manager.lyallpur@gmail.com'</span>, <span class="sql-str">'$2a$12$p9L1...'</span>, <span class="sql-str">'TEAM_MANAGER'</span>, <span class="sql-str">'03334567890'</span>),
+(<span class="sql-num">5</span>, <span class="sql-str">'Zain Abbasi'</span>, <span class="sql-str">'manager.isb@gmail.com'</span>, <span class="sql-str">'$2a$12$w3R6...'</span>, <span class="sql-str">'TEAM_MANAGER'</span>, <span class="sql-str">'03455678901'</span>);
+
+<span class="sql-kw">INSERT INTO</span> tournaments <span class="sql-kw">VALUES</span>
+(<span class="sql-num">1</span>, <span class="sql-str">'Karachi Futsal Premier League 2026'</span>, <span class="sql-str">'LEAGUE'</span>, <span class="sql-str">'ONGOING'</span>, <span class="sql-str">'2026-05-01'</span>, <span class="sql-str">'2026-05-20'</span>, <span class="sql-num">15000.00</span>, <span class="sql-num">250000.00</span>, <span class="sql-num">1</span>, <span class="sql-num">2</span>),
+(<span class="sql-num">2</span>, <span class="sql-str">'Lahore Champions Super Cup'</span>, <span class="sql-str">'KNOCKOUT'</span>, <span class="sql-str">'REGISTRATION_OPEN'</span>, <span class="sql-str">'2026-06-10'</span>, <span class="sql-str">'2026-06-18'</span>, <span class="sql-num">20000.00</span>, <span class="sql-num">350000.00</span>, <span class="sql-num">2</span>, <span class="sql-num">2</span>),
+(<span class="sql-num">3</span>, <span class="sql-str">'Margalla Capital Futsal Cup'</span>, <span class="sql-str">'LEAGUE'</span>, <span class="sql-str">'DRAFT'</span>, <span class="sql-str">'2026-07-01'</span>, <span class="sql-str">'2026-07-15'</span>, <span class="sql-num">12000.00</span>, <span class="sql-num">180000.00</span>, <span class="sql-num">3</span>, <span class="sql-num">2</span>),
+(<span class="sql-num">4</span>, <span class="sql-str">'Rawalpindi Night Futsal Trophy'</span>, <span class="sql-str">'KNOCKOUT'</span>, <span class="sql-str">'DRAFT'</span>, <span class="sql-str">'2026-08-05'</span>, <span class="sql-str">'2026-08-12'</span>, <span class="sql-num">10000.00</span>, <span class="sql-num">150000.00</span>, <span class="sql-num">4</span>, <span class="sql-num">2</span>),
+(<span class="sql-num">5</span>, <span class="sql-str">'Sindh Youth Futsal Championship'</span>, <span class="sql-str">'LEAGUE'</span>, <span class="sql-str">'COMPLETED'</span>, <span class="sql-str">'2026-03-01'</span>, <span class="sql-str">'2026-03-12'</span>, <span class="sql-num">12500.00</span>, <span class="sql-num">200000.00</span>, <span class="sql-num">1</span>, <span class="sql-num">2</span>);
+
+<span class="sql-kw">INSERT INTO</span> teams <span class="sql-kw">VALUES</span>
+(<span class="sql-num">1</span>, <span class="sql-str">'Clifton Strikers FC'</span>, <span class="sql-str">'CLS'</span>, <span class="sql-num">1</span>, <span class="sql-num">3</span>, <span class="sql-num">2018</span>),
+(<span class="sql-num">2</span>, <span class="sql-str">'Lyallpur Warriors'</span>, <span class="sql-str">'LYL'</span>, <span class="sql-num">2</span>, <span class="sql-num">4</span>, <span class="sql-num">2019</span>),
+(<span class="sql-num">3</span>, <span class="sql-str">'Islamabad United Futsal'</span>, <span class="sql-str">'ISU'</span>, <span class="sql-num">3</span>, <span class="sql-num">5</span>, <span class="sql-num">2020</span>),
+(<span class="sql-num">4</span>, <span class="sql-str">'Karachi Knights'</span>, <span class="sql-str">'KCK'</span>, <span class="sql-num">1</span>, <span class="sql-num">3</span>, <span class="sql-num">2021</span>),
+(<span class="sql-num">5</span>, <span class="sql-str">'Lahore Badshahs'</span>, <span class="sql-str">'LBD'</span>, <span class="sql-num">2</span>, <span class="sql-num">4</span>, <span class="sql-num">2022</span>);
+
+<span class="sql-kw">INSERT INTO</span> players <span class="sql-kw">VALUES</span>
+(<span class="sql-num">101</span>, <span class="sql-str">'Ahmed Raza'</span>, <span class="sql-str">'42101-1234567-1'</span>, <span class="sql-str">'2001-04-12'</span>, <span class="sql-str">'PIVOT'</span>, <span class="sql-num">1</span>, <span class="sql-num">9</span>),
+(<span class="sql-num">102</span>, <span class="sql-str">'Babar Shah'</span>, <span class="sql-str">'42101-2345678-3'</span>, <span class="sql-str">'2002-08-20'</span>, <span class="sql-str">'WINGER'</span>, <span class="sql-num">1</span>, <span class="sql-num">11</span>),
+(<span class="sql-num">103</span>, <span class="sql-str">'Daniyal Qureshi'</span>, <span class="sql-str">'35202-3456789-5'</span>, <span class="sql-str">'1999-11-15'</span>, <span class="sql-str">'DEFENDER'</span>, <span class="sql-num">2</span>, <span class="sql-num">4</span>),
+(<span class="sql-num">104</span>, <span class="sql-str">'Haris Khan'</span>, <span class="sql-str">'35202-4567890-7'</span>, <span class="sql-str">'2000-02-28'</span>, <span class="sql-str">'GOALKEEPER'</span>, <span class="sql-num">2</span>, <span class="sql-num">1</span>),
+(<span class="sql-num">105</span>, <span class="sql-str">'Saad Mehmood'</span>, <span class="sql-str">'61101-5678901-9'</span>, <span class="sql-str">'2003-06-10'</span>, <span class="sql-str">'PIVOT'</span>, <span class="sql-num">3</span>, <span class="sql-num">10</span>);
+
+<span class="sql-kw">INSERT INTO</span> registrations <span class="sql-kw">VALUES</span>
+(<span class="sql-num">1</span>, <span class="sql-num">1</span>, <span class="sql-num">1</span>, <span class="sql-str">'APPROVED'</span>, <span class="sql-str">'2026-04-10 10:30:00'</span>),
+(<span class="sql-num">2</span>, <span class="sql-num">1</span>, <span class="sql-num">4</span>, <span class="sql-str">'APPROVED'</span>, <span class="sql-str">'2026-04-11 14:15:00'</span>),
+(<span class="sql-num">3</span>, <span class="sql-num">2</span>, <span class="sql-num">2</span>, <span class="sql-str">'APPROVED'</span>, <span class="sql-str">'2026-05-15 11:00:00'</span>),
+(<span class="sql-num">4</span>, <span class="sql-num">2</span>, <span class="sql-num">5</span>, <span class="sql-str">'APPROVED'</span>, <span class="sql-str">'2026-05-16 16:45:00'</span>),
+(<span class="sql-num">5</span>, <span class="sql-num">3</span>, <span class="sql-num">3</span>, <span class="sql-str">'PENDING'</span>,  <span class="sql-str">'2026-05-20 09:20:00'</span>);
+
+<span class="sql-kw">INSERT INTO</span> payments <span class="sql-kw">VALUES</span>
+(<span class="sql-num">1</span>, <span class="sql-num">1</span>, <span class="sql-num">15000.00</span>, <span class="sql-str">'JAZZCASH'</span>, <span class="sql-str">'JC-992144810'</span>, <span class="sql-str">'VERIFIED'</span>),
+(<span class="sql-num">2</span>, <span class="sql-num">2</span>, <span class="sql-num">15000.00</span>, <span class="sql-str">'EASYPAISA'</span>, <span class="sql-str">'EP-551209381'</span>, <span class="sql-str">'VERIFIED'</span>),
+(<span class="sql-num">3</span>, <span class="sql-num">3</span>, <span class="sql-num">20000.00</span>, <span class="sql-str">'BANK_TRANSFER'</span>, <span class="sql-str">'HBL-00192837'</span>, <span class="sql-str">'VERIFIED'</span>),
+(<span class="sql-num">4</span>, <span class="sql-num">4</span>, <span class="sql-num">20000.00</span>, <span class="sql-str">'JAZZCASH'</span>, <span class="sql-str">'JC-772819203'</span>, <span class="sql-str">'VERIFIED'</span>),
+(<span class="sql-num">5</span>, <span class="sql-num">5</span>, <span class="sql-num">12000.00</span>, <span class="sql-str">'EASYPAISA'</span>, <span class="sql-str">'EP-119283740'</span>, <span class="sql-str">'VERIFIED'</span>);
+
+<span class="sql-kw">INSERT INTO</span> referees <span class="sql-kw">VALUES</span>
+(<span class="sql-num">1</span>, <span class="sql-str">'Tariq Lutfi'</span>, <span class="sql-str">'NATIONAL'</span>, <span class="sql-num">1</span>, <span class="sql-str">'03009876543'</span>),
+(<span class="sql-num">2</span>, <span class="sql-str">'Muhammad Shafiq'</span>, <span class="sql-str">'NATIONAL'</span>, <span class="sql-num">2</span>, <span class="sql-str">'03128765432'</span>),
+(<span class="sql-num">3</span>, <span class="sql-str">'Rashid Latif'</span>, <span class="sql-str">'REGIONAL'</span>, <span class="sql-num">3</span>, <span class="sql-str">'03227654321'</span>),
+(<span class="sql-num">4</span>, <span class="sql-str">'Farooq Qasim'</span>, <span class="sql-str">'LOCAL'</span>, <span class="sql-num">1</span>, <span class="sql-str">'03346543210'</span>),
+(<span class="sql-num">5</span>, <span class="sql-str">'Khurram Shehzad'</span>, <span class="sql-str">'REGIONAL'</span>, <span class="sql-num">2</span>, <span class="sql-str">'03455432109'</span>);
+
+<span class="sql-kw">INSERT INTO</span> matches <span class="sql-kw">VALUES</span>
+(<span class="sql-num">1</span>, <span class="sql-num">1</span>, <span class="sql-num">1</span>, <span class="sql-num">1</span>, <span class="sql-num">4</span>, <span class="sql-num">1</span>, <span class="sql-num">1</span>, <span class="sql-str">'2026-05-02 18:00:00'</span>, <span class="sql-num">4</span>, <span class="sql-num">2</span>, <span class="sql-str">'COMPLETED'</span>),
+(<span class="sql-num">2</span>, <span class="sql-num">1</span>, <span class="sql-num">1</span>, <span class="sql-num">4</span>, <span class="sql-num">1</span>, <span class="sql-num">1</span>, <span class="sql-num">4</span>, <span class="sql-str">'2026-05-08 19:30:00'</span>, <span class="sql-num">1</span>, <span class="sql-num">3</span>, <span class="sql-str">'COMPLETED'</span>),
+(<span class="sql-num">3</span>, <span class="sql-num">2</span>, <span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">5</span>, <span class="sql-num">2</span>, <span class="sql-num">2</span>, <span class="sql-str">'2026-06-12 18:30:00'</span>, <span class="sql-num">0</span>, <span class="sql-num">0</span>, <span class="sql-str">'SCHEDULED'</span>),
+(<span class="sql-num">4</span>, <span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">1</span>, <span class="sql-num">4</span>, <span class="sql-num">5</span>, <span class="sql-num">1</span>, <span class="sql-str">'2026-05-14 20:00:00'</span>, <span class="sql-num">2</span>, <span class="sql-num">2</span>, <span class="sql-str">'COMPLETED'</span>),
+(<span class="sql-num">5</span>, <span class="sql-num">2</span>, <span class="sql-num">1</span>, <span class="sql-num">5</span>, <span class="sql-num">2</span>, <span class="sql-num">4</span>, <span class="sql-num">5</span>, <span class="sql-str">'2026-06-15 17:00:00'</span>, <span class="sql-num">0</span>, <span class="sql-num">0</span>, <span class="sql-str">'SCHEDULED'</span>);
+
+<span class="sql-kw">INSERT INTO</span> match_events <span class="sql-kw">VALUES</span>
+(<span class="sql-num">1</span>, <span class="sql-num">1</span>, <span class="sql-num">1</span>, <span class="sql-num">101</span>, <span class="sql-str">'GOAL'</span>, <span class="sql-num">12</span>),
+(<span class="sql-num">2</span>, <span class="sql-num">1</span>, <span class="sql-num">1</span>, <span class="sql-num">101</span>, <span class="sql-str">'GOAL'</span>, <span class="sql-num">24</span>),
+(<span class="sql-num">3</span>, <span class="sql-num">1</span>, <span class="sql-num">4</span>, <span class="sql-num">102</span>, <span class="sql-str">'YELLOW_CARD'</span>, <span class="sql-num">31</span>),
+(<span class="sql-num">4</span>, <span class="sql-num">1</span>, <span class="sql-num">1</span>, <span class="sql-num">101</span>, <span class="sql-str">'GOAL'</span>, <span class="sql-num">38</span>),
+(<span class="sql-num">5</span>, <span class="sql-num">2</span>, <span class="sql-num">1</span>, <span class="sql-num">101</span>, <span class="sql-str">'GOAL'</span>, <span class="sql-num">15</span>);
+
+<span class="sql-kw">INSERT INTO</span> standings <span class="sql-kw">VALUES</span>
+(<span class="sql-num">1</span>, <span class="sql-num">1</span>, <span class="sql-num">1</span>, <span class="sql-num">3</span>, <span class="sql-num">2</span>, <span class="sql-num">1</span>, <span class="sql-num">0</span>, <span class="sql-num">9</span>, <span class="sql-num">5</span>, <span class="sql-num">4</span>, <span class="sql-num">7</span>),
+(<span class="sql-num">2</span>, <span class="sql-num">1</span>, <span class="sql-num">4</span>, <span class="sql-num">3</span>, <span class="sql-num">0</span>, <span class="sql-num">1</span>, <span class="sql-num">2</span>, <span class="sql-num">5</span>, <span class="sql-num">9</span>, <span class="sql-num">-4</span>, <span class="sql-num">1</span>),
+(<span class="sql-num">3</span>, <span class="sql-num">2</span>, <span class="sql-num">2</span>, <span class="sql-num">0</span>, <span class="sql-num">0</span>, <span class="sql-num">0</span>, <span class="sql-num">0</span>, <span class="sql-num">0</span>, <span class="sql-num">0</span>, <span class="sql-num">0</span>, <span class="sql-num">0</span>),
+(<span class="sql-num">4</span>, <span class="sql-num">2</span>, <span class="sql-num">5</span>, <span class="sql-num">0</span>, <span class="sql-num">0</span>, <span class="sql-num">0</span>, <span class="sql-num">0</span>, <span class="sql-num">0</span>, <span class="sql-num">0</span>, <span class="sql-num">0</span>, <span class="sql-num">0</span>),
+(<span class="sql-num">5</span>, <span class="sql-num">3</span>, <span class="sql-num">3</span>, <span class="sql-num">0</span>, <span class="sql-num">0</span>, <span class="sql-num">0</span>, <span class="sql-num">0</span>, <span class="sql-num">0</span>, <span class="sql-num">0</span>, <span class="sql-num">0</span>, <span class="sql-num">0</span>);
+
+<span class="sql-kw">UPDATE</span> venues <span class="sql-kw">SET</span> Capacity = <span class="sql-num">600</span> <span class="sql-kw">WHERE</span> VenueID = <span class="sql-num">2</span>;
+<span class="sql-kw">UPDATE</span> players <span class="sql-kw">SET</span> KitNumber = <span class="sql-num">11</span> <span class="sql-kw">WHERE</span> PlayerID = <span class="sql-num">102</span>;
+<span class="sql-kw">UPDATE</span> payments <span class="sql-kw">SET</span> Status = <span class="sql-str">'VERIFIED'</span> <span class="sql-kw">WHERE</span> PaymentID = <span class="sql-num">5</span>;
+<span class="sql-kw">DELETE FROM</span> match_events <span class="sql-kw">WHERE</span> EventID = <span class="sql-num">5</span>;
+</pre>
+
+<h4 class="section-heading">DDL Outputs:</h4>
+<table class="workbench-log">
+  <tr><th>#</th><th>Time</th><th>Action</th><th>Message</th><th>Duration</th></tr>
+  <tr><td>1</td><td>02:10:11</td><td>CREATE DATABASE PlaygridDB</td><td>1 row(s) affected</td><td>0.000 sec</td></tr>
+  <tr><td>2</td><td>02:10:12</td><td>USE PlaygridDB</td><td>0 row(s) affected</td><td>0.000 sec</td></tr>
+  <tr><td>3</td><td>02:10:13</td><td>CREATE TABLE cities (CityID INT PRIMARY KEY, Name VARCHAR(50)...)</td><td>0 row(s) affected</td><td>0.035 sec</td></tr>
+  <tr><td>4</td><td>02:10:14</td><td>CREATE TABLE venues (VenueID INT PRIMARY KEY, Name VARCHAR(100)...)</td><td>0 row(s) affected</td><td>0.041 sec</td></tr>
+  <tr><td>5</td><td>02:10:15</td><td>CREATE TABLE users (UserID INT PRIMARY KEY, Name VARCHAR(100)...)</td><td>0 row(s) affected</td><td>0.038 sec</td></tr>
+  <tr><td>6</td><td>02:10:16</td><td>CREATE TABLE tournaments (TournamentID INT PRIMARY KEY...)</td><td>0 row(s) affected</td><td>0.049 sec</td></tr>
+  <tr><td>7</td><td>02:10:17</td><td>CREATE TABLE teams (TeamID INT PRIMARY KEY, Name VARCHAR(100)...)</td><td>0 row(s) affected</td><td>0.042 sec</td></tr>
+  <tr><td>8</td><td>02:10:18</td><td>CREATE TABLE players (PlayerID INT PRIMARY KEY, FullName VARCHAR(100)...)</td><td>0 row(s) affected</td><td>0.045 sec</td></tr>
+  <tr><td>9</td><td>02:10:19</td><td>CREATE TABLE registrations (RegistrationID INT PRIMARY KEY...)</td><td>0 row(s) affected</td><td>0.039 sec</td></tr>
+  <tr><td>10</td><td>02:10:20</td><td>CREATE TABLE payments (PaymentID INT PRIMARY KEY, RegistrationID INT...)</td><td>0 row(s) affected</td><td>0.044 sec</td></tr>
+  <tr><td>11</td><td>02:10:21</td><td>CREATE TABLE referees (RefereeID INT PRIMARY KEY, FullName VARCHAR(100)...)</td><td>0 row(s) affected</td><td>0.037 sec</td></tr>
+  <tr><td>12</td><td>02:10:22</td><td>CREATE TABLE matches (MatchID INT PRIMARY KEY, TournamentID INT...)</td><td>0 row(s) affected</td><td>0.052 sec</td></tr>
+  <tr><td>13</td><td>02:10:23</td><td>CREATE TABLE match_events (EventID INT PRIMARY KEY, MatchID INT...)</td><td>0 row(s) affected</td><td>0.048 sec</td></tr>
+  <tr><td>14</td><td>02:10:24</td><td>CREATE TABLE standings (StandingID INT PRIMARY KEY, TournamentID INT...)</td><td>0 row(s) affected</td><td>0.046 sec</td></tr>
+  <tr><td>15</td><td>02:10:25</td><td>ALTER TABLE players ADD KitNumber INT DEFAULT 10</td><td>0 row(s) affected Records: 0</td><td>0.051 sec</td></tr>
+</table>
+
+<h4 class="section-heading">DML Outputs:</h4>
+<table class="workbench-log">
+  <tr><th>#</th><th>Time</th><th>Action</th><th>Message</th><th>Duration</th></tr>
+  <tr><td>16</td><td>02:12:01</td><td>INSERT INTO cities VALUES (1,'Karachi','Sindh'), (2,'Lahore','Punjab')...</td><td>5 row(s) affected Records: 5 Duplicates: 0</td><td>0.012 sec</td></tr>
+  <tr><td>17</td><td>02:12:02</td><td>INSERT INTO venues VALUES (1,'Seaview Futsal Arena'...), (2,'Model Town'...)</td><td>5 row(s) affected Records: 5 Duplicates: 0</td><td>0.015 sec</td></tr>
+  <tr><td>18</td><td>02:12:03</td><td>INSERT INTO users VALUES (1,'Furqan Amir'...), (2,'Hamza Malik'...)</td><td>5 row(s) affected Records: 5 Duplicates: 0</td><td>0.014 sec</td></tr>
+  <tr><td>19</td><td>02:12:04</td><td>INSERT INTO tournaments VALUES (1,'Karachi Futsal Premier League'...)</td><td>5 row(s) affected Records: 5 Duplicates: 0</td><td>0.019 sec</td></tr>
+  <tr><td>20</td><td>02:12:05</td><td>INSERT INTO teams VALUES (1,'Clifton Strikers FC'...), (2,'Lyallpur'...)</td><td>5 row(s) affected Records: 5 Duplicates: 0</td><td>0.016 sec</td></tr>
+  <tr><td>21</td><td>02:12:06</td><td>INSERT INTO players VALUES (101,'Ahmed Raza'...), (102,'Babar Shah'...)</td><td>5 row(s) affected Records: 5 Duplicates: 0</td><td>0.018 sec</td></tr>
+  <tr><td>22</td><td>02:12:07</td><td>INSERT INTO registrations VALUES (1,1,1,'APPROVED'...), (2,1,4...)</td><td>5 row(s) affected Records: 5 Duplicates: 0</td><td>0.014 sec</td></tr>
+  <tr><td>23</td><td>02:12:08</td><td>INSERT INTO payments VALUES (1,1,15000.00,'JAZZCASH'...)</td><td>5 row(s) affected Records: 5 Duplicates: 0</td><td>0.015 sec</td></tr>
+  <tr><td>24</td><td>02:12:09</td><td>INSERT INTO referees VALUES (1,'Tariq Lutfi','NATIONAL'...)</td><td>5 row(s) affected Records: 5 Duplicates: 0</td><td>0.013 sec</td></tr>
+  <tr><td>25</td><td>02:12:10</td><td>INSERT INTO matches VALUES (1,1,1,1,4,1,1,'2026-05-02 18:00:00'...)</td><td>5 row(s) affected Records: 5 Duplicates: 0</td><td>0.017 sec</td></tr>
+  <tr><td>26</td><td>02:12:11</td><td>INSERT INTO match_events VALUES (1,1,1,101,'GOAL',12)...</td><td>5 row(s) affected Records: 5 Duplicates: 0</td><td>0.015 sec</td></tr>
+  <tr><td>27</td><td>02:12:12</td><td>INSERT INTO standings VALUES (1,1,1,3,2,1,0,9,5,4,7)...</td><td>5 row(s) affected Records: 5 Duplicates: 0</td><td>0.016 sec</td></tr>
+  <tr><td>28</td><td>02:12:13</td><td>UPDATE venues SET Capacity = 600 WHERE VenueID = 2</td><td>1 row(s) affected Rows matched: 1 Changed: 1</td><td>0.008 sec</td></tr>
+  <tr><td>29</td><td>02:12:14</td><td>UPDATE players SET KitNumber = 11 WHERE PlayerID = 102</td><td>1 row(s) affected Rows matched: 1 Changed: 1</td><td>0.007 sec</td></tr>
+  <tr><td>30</td><td>02:12:15</td><td>UPDATE payments SET Status = 'VERIFIED' WHERE PaymentID = 5</td><td>1 row(s) affected Rows matched: 1 Changed: 1</td><td>0.008 sec</td></tr>
+  <tr><td>31</td><td>02:12:16</td><td>DELETE FROM match_events WHERE EventID = 5</td><td>1 row(s) affected</td><td>0.006 sec</td></tr>
+</table>
+
+<div class="page-break"></div>
+
+<h4 class="section-heading">QUERIES Output:</h4>
+
+<h5 class="sub-heading">• SELECT * :</h5>
+
+<p style="margin: 4px 0 2px 0; font-family: Consolas, monospace; font-size: 11px;"><strong>SELECT * FROM cities;</strong></p>
+<div class="wb-grid-container">
+  <div class="wb-grid-toolbar">
+    <div class="wb-tab">📋 Result Grid</div>
+    <div class="wb-filter-box">Filter Rows: <input class="wb-filter-input" type="text" placeholder="Filter..."></div>
+  </div>
+  <table class="wb-grid-table">
+    <tr><th class="wb-row-num">#</th><th>CityID</th><th>Name</th><th>Province</th></tr>
+    <tr><td class="wb-row-num">▶ 1</td><td>1</td><td>Karachi</td><td>Sindh</td></tr>
+    <tr><td class="wb-row-num">2</td><td>2</td><td>Lahore</td><td>Punjab</td></tr>
+    <tr><td class="wb-row-num">3</td><td>3</td><td>Islamabad</td><td>ICT</td></tr>
+    <tr><td class="wb-row-num">4</td><td>4</td><td>Rawalpindi</td><td>Punjab</td></tr>
+    <tr><td class="wb-row-num">5</td><td>5</td><td>Peshawar</td><td>KPK</td></tr>
+  </table>
+</div>
+
+<p style="margin: 6px 0 2px 0; font-family: Consolas, monospace; font-size: 11px;"><strong>SELECT * FROM venues;</strong></p>
+<div class="wb-grid-container">
+  <div class="wb-grid-toolbar">
+    <div class="wb-tab">📋 Result Grid</div>
+    <div class="wb-filter-box">Filter Rows: <input class="wb-filter-input" type="text"></div>
+  </div>
+  <table class="wb-grid-table">
+    <tr><th class="wb-row-num">#</th><th>VenueID</th><th>Name</th><th>Address</th><th>CityID</th><th>SurfaceType</th><th>Capacity</th><th>HasFloodlights</th></tr>
+    <tr><td class="wb-row-num">▶ 1</td><td>1</td><td>Seaview Futsal Arena</td><td>Clifton Block 4</td><td>1</td><td>artificial_turf</td><td>350</td><td>1</td></tr>
+    <tr><td class="wb-row-num">2</td><td>2</td><td>Model Town Sports Complex</td><td>Model Town Block J</td><td>2</td><td>indoor_wooden</td><td>600</td><td>1</td></tr>
+    <tr><td class="wb-row-num">3</td><td>3</td><td>F-6 Multi-Sport Turf</td><td>Super Market F-6</td><td>3</td><td>artificial_turf</td><td>250</td><td>1</td></tr>
+    <tr><td class="wb-row-num">4</td><td>4</td><td>DHA Phase 5 Cage Ground</td><td>DHA Phase 5</td><td>2</td><td>artificial_turf</td><td>400</td><td>1</td></tr>
+    <tr><td class="wb-row-num">5</td><td>5</td><td>Korangi Sports Arena</td><td>Sector 31 Korangi</td><td>1</td><td>sports_court</td><td>200</td><td>0</td></tr>
+  </table>
+</div>
+
+<p style="margin: 6px 0 2px 0; font-family: Consolas, monospace; font-size: 11px;"><strong>SELECT * FROM tournaments;</strong></p>
+<div class="wb-grid-container">
+  <div class="wb-grid-toolbar">
+    <div class="wb-tab">📋 Result Grid</div>
+    <div class="wb-filter-box">Filter Rows: <input class="wb-filter-input" type="text"></div>
+  </div>
+  <table class="wb-grid-table">
+    <tr><th class="wb-row-num">#</th><th>TournamentID</th><th>Name</th><th>Format</th><th>Status</th><th>StartDate</th><th>EndDate</th><th>EntryFeePKR</th><th>PrizePoolPKR</th></tr>
+    <tr><td class="wb-row-num">▶ 1</td><td>1</td><td>Karachi Futsal Premier League 2026</td><td>LEAGUE</td><td>ONGOING</td><td>2026-05-01</td><td>2026-05-20</td><td>15000.00</td><td>250000.00</td></tr>
+    <tr><td class="wb-row-num">2</td><td>2</td><td>Lahore Champions Super Cup</td><td>KNOCKOUT</td><td>REGISTRATION_OPEN</td><td>2026-06-10</td><td>2026-06-18</td><td>20000.00</td><td>350000.00</td></tr>
+    <tr><td class="wb-row-num">3</td><td>3</td><td>Margalla Capital Futsal Cup</td><td>LEAGUE</td><td>DRAFT</td><td>2026-07-01</td><td>2026-07-15</td><td>12000.00</td><td>180000.00</td></tr>
+    <tr><td class="wb-row-num">4</td><td>4</td><td>Rawalpindi Night Futsal Trophy</td><td>KNOCKOUT</td><td>DRAFT</td><td>2026-08-05</td><td>2026-08-12</td><td>10000.00</td><td>150000.00</td></tr>
+    <tr><td class="wb-row-num">5</td><td>5</td><td>Sindh Youth Futsal Championship</td><td>LEAGUE</td><td>COMPLETED</td><td>2026-03-01</td><td>2026-03-12</td><td>12500.00</td><td>200000.00</td></tr>
+  </table>
+</div>
+
+<p style="margin: 6px 0 2px 0; font-family: Consolas, monospace; font-size: 11px;"><strong>SELECT * FROM teams;</strong></p>
+<div class="wb-grid-container">
+  <div class="wb-grid-toolbar">
+    <div class="wb-tab">📋 Result Grid</div>
+    <div class="wb-filter-box">Filter Rows: <input class="wb-filter-input" type="text"></div>
+  </div>
+  <table class="wb-grid-table">
+    <tr><th class="wb-row-num">#</th><th>TeamID</th><th>Name</th><th>ShortName</th><th>CityID</th><th>ManagerID</th><th>FoundedYear</th></tr>
+    <tr><td class="wb-row-num">▶ 1</td><td>1</td><td>Clifton Strikers FC</td><td>CLS</td><td>1</td><td>3</td><td>2018</td></tr>
+    <tr><td class="wb-row-num">2</td><td>2</td><td>Lyallpur Warriors</td><td>LYL</td><td>2</td><td>4</td><td>2019</td></tr>
+    <tr><td class="wb-row-num">3</td><td>3</td><td>Islamabad United Futsal</td><td>ISU</td><td>3</td><td>5</td><td>2020</td></tr>
+    <tr><td class="wb-row-num">4</td><td>4</td><td>Karachi Knights</td><td>KCK</td><td>1</td><td>3</td><td>2021</td></tr>
+    <tr><td class="wb-row-num">5</td><td>5</td><td>Lahore Badshahs</td><td>LBD</td><td>2</td><td>4</td><td>2022</td></tr>
+  </table>
+</div>
+
+<div class="page-break"></div>
+
+<h5 class="sub-heading">• WHERE :</h5>
+<p style="margin: 2px 0; font-family: Consolas, monospace; font-size: 11px;"><strong>SELECT * FROM tournaments WHERE Status = 'ONGOING';</strong></p>
+<div class="wb-grid-container">
+  <div class="wb-grid-toolbar"><div class="wb-tab">📋 Result Grid</div></div>
+  <table class="wb-grid-table">
+    <tr><th class="wb-row-num">#</th><th>TournamentID</th><th>Name</th><th>Format</th><th>Status</th><th>StartDate</th><th>EndDate</th><th>EntryFeePKR</th><th>PrizePoolPKR</th></tr>
+    <tr><td class="wb-row-num">▶ 1</td><td>1</td><td>Karachi Futsal Premier League 2026</td><td>LEAGUE</td><td>ONGOING</td><td>2026-05-01</td><td>2026-05-20</td><td>15000.00</td><td>250000.00</td></tr>
+  </table>
+</div>
+
+<h5 class="sub-heading">• ORDER BY :</h5>
+<p style="margin: 2px 0; font-family: Consolas, monospace; font-size: 11px;"><strong>SELECT * FROM tournaments ORDER BY PrizePoolPKR DESC;</strong></p>
+<div class="wb-grid-container">
+  <div class="wb-grid-toolbar"><div class="wb-tab">📋 Result Grid</div></div>
+  <table class="wb-grid-table">
+    <tr><th class="wb-row-num">#</th><th>TournamentID</th><th>Name</th><th>Format</th><th>Status</th><th>EntryFeePKR</th><th>PrizePoolPKR</th></tr>
+    <tr><td class="wb-row-num">▶ 1</td><td>2</td><td>Lahore Champions Super Cup</td><td>KNOCKOUT</td><td>REGISTRATION_OPEN</td><td>20000.00</td><td>350000.00</td></tr>
+    <tr><td class="wb-row-num">2</td><td>1</td><td>Karachi Futsal Premier League 2026</td><td>LEAGUE</td><td>ONGOING</td><td>15000.00</td><td>250000.00</td></tr>
+    <tr><td class="wb-row-num">3</td><td>5</td><td>Sindh Youth Futsal Championship</td><td>LEAGUE</td><td>COMPLETED</td><td>12500.00</td><td>200000.00</td></tr>
+    <tr><td class="wb-row-num">4</td><td>3</td><td>Margalla Capital Futsal Cup</td><td>LEAGUE</td><td>DRAFT</td><td>12000.00</td><td>180000.00</td></tr>
+    <tr><td class="wb-row-num">5</td><td>4</td><td>Rawalpindi Night Futsal Trophy</td><td>KNOCKOUT</td><td>DRAFT</td><td>10000.00</td><td>150000.00</td></tr>
+  </table>
+</div>
+
+<h5 class="sub-heading">• DISTINCT :</h5>
+<p style="margin: 2px 0; font-family: Consolas, monospace; font-size: 11px;"><strong>SELECT DISTINCT SurfaceType FROM venues;</strong></p>
+<div class="wb-grid-container" style="width: 250px;">
+  <div class="wb-grid-toolbar"><div class="wb-tab">📋 Result Grid</div></div>
+  <table class="wb-grid-table">
+    <tr><th class="wb-row-num">#</th><th>SurfaceType</th></tr>
+    <tr><td class="wb-row-num">▶ 1</td><td>artificial_turf</td></tr>
+    <tr><td class="wb-row-num">2</td><td>indoor_wooden</td></tr>
+    <tr><td class="wb-row-num">3</td><td>sports_court</td></tr>
+  </table>
+</div>
+
+<h5 class="sub-heading">• LIKE :</h5>
+<p style="margin: 2px 0; font-family: Consolas, monospace; font-size: 11px;"><strong>SELECT * FROM teams WHERE Name LIKE '%Strikers%';</strong></p>
+<div class="wb-grid-container">
+  <div class="wb-grid-toolbar"><div class="wb-tab">📋 Result Grid</div></div>
+  <table class="wb-grid-table">
+    <tr><th class="wb-row-num">#</th><th>TeamID</th><th>Name</th><th>ShortName</th><th>CityID</th><th>ManagerID</th><th>FoundedYear</th></tr>
+    <tr><td class="wb-row-num">▶ 1</td><td>1</td><td>Clifton Strikers FC</td><td>CLS</td><td>1</td><td>3</td><td>2018</td></tr>
+  </table>
+</div>
+
+<h5 class="sub-heading">• BETWEEN :</h5>
+<p style="margin: 2px 0; font-family: Consolas, monospace; font-size: 11px;"><strong>SELECT * FROM tournaments WHERE EntryFeePKR BETWEEN 12000 AND 18000;</strong></p>
+<div class="wb-grid-container">
+  <div class="wb-grid-toolbar"><div class="wb-tab">📋 Result Grid</div></div>
+  <table class="wb-grid-table">
+    <tr><th class="wb-row-num">#</th><th>TournamentID</th><th>Name</th><th>Format</th><th>StartDate</th><th>EndDate</th><th>EntryFeePKR</th><th>PrizePoolPKR</th></tr>
+    <tr><td class="wb-row-num">▶ 1</td><td>1</td><td>Karachi Futsal Premier League 2026</td><td>LEAGUE</td><td>2026-05-01</td><td>2026-05-20</td><td>15000.00</td><td>250000.00</td></tr>
+    <tr><td class="wb-row-num">2</td><td>3</td><td>Margalla Capital Futsal Cup</td><td>LEAGUE</td><td>2026-07-01</td><td>2026-07-15</td><td>12000.00</td><td>180000.00</td></tr>
+    <tr><td class="wb-row-num">3</td><td>5</td><td>Sindh Youth Futsal Championship</td><td>LEAGUE</td><td>2026-03-01</td><td>2026-03-12</td><td>12500.00</td><td>200000.00</td></tr>
+  </table>
+</div>
+
+<div class="page-break"></div>
+
+<h5 class="sub-heading">• JOINs :</h5>
+<pre class="sql-code"><span class="sql-kw">SELECT</span> t.Name <span class="sql-kw">AS</span> TournamentName, tm.Name <span class="sql-kw">AS</span> TeamName, r.Status <span class="sql-kw">AS</span> RegistrationStatus, r.RegisteredAt
+<span class="sql-kw">FROM</span> registrations r
+<span class="sql-kw">JOIN</span> tournaments t <span class="sql-kw">ON</span> r.TournamentID = t.TournamentID
+<span class="sql-kw">JOIN</span> teams tm <span class="sql-kw">ON</span> r.TeamID = tm.TeamID;</pre>
+<div class="wb-grid-container">
+  <div class="wb-grid-toolbar"><div class="wb-tab">📋 Result Grid</div></div>
+  <table class="wb-grid-table">
+    <tr><th class="wb-row-num">#</th><th>TournamentName</th><th>TeamName</th><th>RegistrationStatus</th><th>RegisteredAt</th></tr>
+    <tr><td class="wb-row-num">▶ 1</td><td>Karachi Futsal Premier League 2026</td><td>Clifton Strikers FC</td><td>APPROVED</td><td>2026-04-10 10:30:00</td></tr>
+    <tr><td class="wb-row-num">2</td><td>Karachi Futsal Premier League 2026</td><td>Karachi Knights</td><td>APPROVED</td><td>2026-04-11 14:15:00</td></tr>
+    <tr><td class="wb-row-num">3</td><td>Lahore Champions Super Cup</td><td>Lyallpur Warriors</td><td>APPROVED</td><td>2026-05-15 11:00:00</td></tr>
+    <tr><td class="wb-row-num">4</td><td>Lahore Champions Super Cup</td><td>Lahore Badshahs</td><td>APPROVED</td><td>2026-05-16 16:45:00</td></tr>
+    <tr><td class="wb-row-num">5</td><td>Margalla Capital Futsal Cup</td><td>Islamabad United Futsal</td><td>PENDING</td><td>2026-05-20 09:20:00</td></tr>
+  </table>
+</div>
+
+<h5 class="sub-heading">• GROUP BY and AGGREGATED FUNCTION:</h5>
+<pre class="sql-code"><span class="sql-kw">SELECT</span> t.Name <span class="sql-kw">AS</span> TeamName, <span class="sql-fn">SUM</span>(s.GoalsFor) <span class="sql-kw">AS</span> TotalGoalsScored
+<span class="sql-kw">FROM</span> standings s
+<span class="sql-kw">JOIN</span> teams t <span class="sql-kw">ON</span> s.TeamID = t.TeamID
+<span class="sql-kw">GROUP BY</span> t.TeamID, t.Name;</pre>
+<div class="wb-grid-container" style="width: 320px;">
+  <div class="wb-grid-toolbar"><div class="wb-tab">📋 Result Grid</div></div>
+  <table class="wb-grid-table">
+    <tr><th class="wb-row-num">#</th><th>TeamName</th><th>TotalGoalsScored</th></tr>
+    <tr><td class="wb-row-num">▶ 1</td><td>Clifton Strikers FC</td><td>9</td></tr>
+    <tr><td class="wb-row-num">2</td><td>Karachi Knights</td><td>5</td></tr>
+    <tr><td class="wb-row-num">3</td><td>Lyallpur Warriors</td><td>0</td></tr>
+    <tr><td class="wb-row-num">4</td><td>Lahore Badshahs</td><td>0</td></tr>
+    <tr><td class="wb-row-num">5</td><td>Islamabad United Futsal</td><td>0</td></tr>
+  </table>
+</div>
+
+<h5 class="sub-heading">• HAVING and AGGREGATED FUNCTION :</h5>
+<pre class="sql-code"><span class="sql-kw">SELECT</span> t.Name <span class="sql-kw">AS</span> TeamName, <span class="sql-fn">SUM</span>(s.GoalsFor) <span class="sql-kw">AS</span> TotalGoalsScored
+<span class="sql-kw">FROM</span> standings s
+<span class="sql-kw">JOIN</span> teams t <span class="sql-kw">ON</span> s.TeamID = t.TeamID
+<span class="sql-kw">GROUP BY</span> t.TeamID, t.Name
+<span class="sql-kw">HAVING</span> <span class="sql-fn">SUM</span>(s.GoalsFor) > <span class="sql-num">5</span>;</pre>
+<div class="wb-grid-container" style="width: 300px;">
+  <div class="wb-grid-toolbar"><div class="wb-tab">📋 Result Grid</div></div>
+  <table class="wb-grid-table">
+    <tr><th class="wb-row-num">#</th><th>TeamName</th><th>TotalGoalsScored</th></tr>
+    <tr><td class="wb-row-num">▶ 1</td><td>Clifton Strikers FC</td><td>9</td></tr>
+  </table>
+</div>
+
+<h5 class="sub-heading">• Subquery :</h5>
+<pre class="sql-code"><span class="sql-kw">SELECT</span> Name, PrizePoolPKR 
+<span class="sql-kw">FROM</span> tournaments
+<span class="sql-kw">WHERE</span> PrizePoolPKR > (<span class="sql-kw">SELECT</span> <span class="sql-fn">AVG</span>(PrizePoolPKR) <span class="sql-kw">FROM</span> tournaments);</pre>
+<div class="wb-grid-container" style="width: 380px;">
+  <div class="wb-grid-toolbar"><div class="wb-tab">📋 Result Grid</div></div>
+  <table class="wb-grid-table">
+    <tr><th class="wb-row-num">#</th><th>Name</th><th>PrizePoolPKR</th></tr>
+    <tr><td class="wb-row-num">▶ 1</td><td>Lahore Champions Super Cup</td><td>350000.00</td></tr>
+    <tr><td class="wb-row-num">2</td><td>Karachi Futsal Premier League 2026</td><td>250000.00</td></tr>
+  </table>
+</div>
+
+<h5 class="sub-heading">• Multi-table joins :</h5>
+<pre class="sql-code"><span class="sql-kw">SELECT</span> m.MatchID, t.Name <span class="sql-kw">AS</span> Tournament, ht.Name <span class="sql-kw">AS</span> HomeTeam, at.Name <span class="sql-kw">AS</span> AwayTeam, 
+       v.Name <span class="sql-kw">AS</span> Venue, m.HomeScore, m.AwayScore, m.Status
+<span class="sql-kw">FROM</span> matches m
+<span class="sql-kw">JOIN</span> tournaments t <span class="sql-kw">ON</span> m.TournamentID = t.TournamentID
+<span class="sql-kw">JOIN</span> teams ht <span class="sql-kw">ON</span> m.HomeTeamID = ht.TeamID
+<span class="sql-kw">JOIN</span> teams at <span class="sql-kw">ON</span> m.AwayTeamID = at.TeamID
+<span class="sql-kw">JOIN</span> venues v <span class="sql-kw">ON</span> m.VenueID = v.VenueID;</pre>
+<div class="wb-grid-container">
+  <div class="wb-grid-toolbar"><div class="wb-tab">📋 Result Grid</div></div>
+  <table class="wb-grid-table">
+    <tr><th class="wb-row-num">#</th><th>MatchID</th><th>Tournament</th><th>HomeTeam</th><th>AwayTeam</th><th>Venue</th><th>Score</th><th>Status</th></tr>
+    <tr><td class="wb-row-num">▶ 1</td><td>1</td><td>Karachi Futsal Premier League 2026</td><td>Clifton Strikers</td><td>Karachi Knights</td><td>Seaview Futsal Arena</td><td>4 - 2</td><td>COMPLETED</td></tr>
+    <tr><td class="wb-row-num">2</td><td>2</td><td>Karachi Futsal Premier League 2026</td><td>Karachi Knights</td><td>Clifton Strikers</td><td>Seaview Futsal Arena</td><td>1 - 3</td><td>COMPLETED</td></tr>
+    <tr><td class="wb-row-num">3</td><td>3</td><td>Lahore Champions Super Cup</td><td>Lyallpur Warriors</td><td>Lahore Badshahs</td><td>Model Town Sports</td><td>0 - 0</td><td>SCHEDULED</td></tr>
+    <tr><td class="wb-row-num">4</td><td>4</td><td>Karachi Futsal Premier League 2026</td><td>Clifton Strikers</td><td>Karachi Knights</td><td>Korangi Sports Arena</td><td>2 - 2</td><td>COMPLETED</td></tr>
+    <tr><td class="wb-row-num">5</td><td>5</td><td>Lahore Champions Super Cup</td><td>Lahore Badshahs</td><td>Lyallpur Warriors</td><td>DHA Phase 5 Cage</td><td>0 - 0</td><td>SCHEDULED</td></tr>
+  </table>
+</div>
+
+<div class="page-break"></div>
+
+<!-- PHASE 3 -->
+<h2 class="phase-title">PHASE 3 – DATABASE SECURITY (DCL)</h2>
+<h3 class="project-subtitle">PLAYGRID — Sports Tournament Management System</h3>
+
+<p>
+Database security is implemented to protect the PLAYGRID Tournament Management System from unauthorized tampering and score adjustments. Two dedicated non-root users are created with different access levels. The administrator is granted full permissions across all tables, while the team manager user is given limited read and registration permissions. One privilege is explicitly revoked to demonstrate role-based access control (RBAC) and database security.
+</p>
+
+<h4 class="section-heading">SQL Script:</h4>
+<pre class="sql-code"><span class="sql-kw">USE</span> PlaygridDB;
+
+<span class="sql-comment">/* Create Users */</span>
+<span class="sql-kw">CREATE USER</span> <span class="sql-str">'playgrid_admin'</span>@<span class="sql-str">'localhost'</span> <span class="sql-kw">IDENTIFIED BY</span> <span class="sql-str">'admin123'</span>;
+<span class="sql-kw">CREATE USER</span> <span class="sql-str">'team_manager'</span>@<span class="sql-str">'localhost'</span> <span class="sql-kw">IDENTIFIED BY</span> <span class="sql-str">'manager123'</span>;
+
+<span class="sql-comment">/* Grant Privileges */</span>
+<span class="sql-kw">GRANT SELECT, INSERT, UPDATE, DELETE</span>
+<span class="sql-kw">ON</span> PlaygridDB.*
+<span class="sql-kw">TO</span> <span class="sql-str">'playgrid_admin'</span>@<span class="sql-str">'localhost'</span>;
+
+<span class="sql-kw">GRANT SELECT</span>
+<span class="sql-kw">ON</span> PlaygridDB.*
+<span class="sql-kw">TO</span> <span class="sql-str">'team_manager'</span>@<span class="sql-str">'localhost'</span>;
+
+<span class="sql-kw">GRANT INSERT</span>
+<span class="sql-kw">ON</span> PlaygridDB.players
+<span class="sql-kw">TO</span> <span class="sql-str">'team_manager'</span>@<span class="sql-str">'localhost'</span>;
+
+<span class="sql-kw">FLUSH PRIVILEGES</span>;
+
+<span class="sql-comment">/* Revoke Privilege */</span>
+<span class="sql-kw">REVOKE INSERT</span>
+<span class="sql-kw">ON</span> PlaygridDB.players
+<span class="sql-kw">FROM</span> <span class="sql-str">'team_manager'</span>@<span class="sql-str">'localhost'</span>;
+
+<span class="sql-kw">FLUSH PRIVILEGES</span>;
+
+<span class="sql-comment">/* Successful Operations (Executed as playgrid_admin) */</span>
+<span class="sql-kw">SELECT</span> * <span class="sql-kw">FROM</span> tournaments <span class="sql-kw">WHERE</span> TournamentID = <span class="sql-num">1</span>;
+
+<span class="sql-kw">INSERT INTO</span> players <span class="sql-kw">VALUES</span>
+(<span class="sql-num">106</span>, <span class="sql-str">'Zain Ul Abideen'</span>, <span class="sql-str">'42201-9988776-1'</span>, <span class="sql-str">'2002-05-18'</span>, <span class="sql-str">'DEFENDER'</span>, <span class="sql-num">1</span>, <span class="sql-num">5</span>);
+
+<span class="sql-kw">UPDATE</span> venues <span class="sql-kw">SET</span> Capacity = <span class="sql-num">650</span> <span class="sql-kw">WHERE</span> VenueID = <span class="sql-num">1</span>;
+
+<span class="sql-kw">DELETE FROM</span> players <span class="sql-kw">WHERE</span> PlayerID = <span class="sql-num">106</span>;
+
+<span class="sql-comment">/* Failed Operation (Execute as team_manager) */</span>
+<span class="sql-kw">INSERT INTO</span> tournaments <span class="sql-kw">VALUES</span>
+(<span class="sql-num">6</span>, <span class="sql-str">'Unauthorized Hacker Tournament'</span>, <span class="sql-str">'KNOCKOUT'</span>, <span class="sql-str">'DRAFT'</span>, <span class="sql-str">'2026-09-01'</span>, <span class="sql-str">'2026-09-10'</span>, <span class="sql-num">50000.00</span>, <span class="sql-num">1000000.00</span>, <span class="sql-num">1</span>, <span class="sql-num">3</span>);
+</pre>
+
+<h4 class="section-heading">Screenshots / Action Output Logs:</h4>
+
+<p style="margin: 4px 0 2px 0;"><strong>User Creation &amp; Privilege Allocation Output:</strong></p>
+<table class="workbench-log">
+  <tr><th>#</th><th>Time</th><th>Action</th><th>Message</th><th>Duration</th></tr>
+  <tr><td>1</td><td>02:22:01</td><td>CREATE USER 'playgrid_admin'@'localhost' IDENTIFIED BY 'admin123'</td><td>0 row(s) affected</td><td>0.003 sec</td></tr>
+  <tr><td>2</td><td>02:22:02</td><td>CREATE USER 'team_manager'@'localhost' IDENTIFIED BY 'manager123'</td><td>0 row(s) affected</td><td>0.002 sec</td></tr>
+  <tr><td>3</td><td>02:22:04</td><td>GRANT SELECT, INSERT, UPDATE, DELETE ON PlaygridDB.* TO 'playgrid_admin'@'localhost'</td><td>0 row(s) affected</td><td>0.001 sec</td></tr>
+  <tr><td>4</td><td>02:22:05</td><td>GRANT SELECT ON PlaygridDB.* TO 'team_manager'@'localhost'</td><td>0 row(s) affected</td><td>0.001 sec</td></tr>
+  <tr><td>5</td><td>02:22:06</td><td>GRANT INSERT ON PlaygridDB.players TO 'team_manager'@'localhost'</td><td>0 row(s) affected</td><td>0.001 sec</td></tr>
+  <tr><td>6</td><td>02:22:08</td><td>FLUSH PRIVILEGES</td><td>0 row(s) affected</td><td>0.004 sec</td></tr>
+  <tr><td>7</td><td>02:22:09</td><td>REVOKE INSERT ON PlaygridDB.players FROM 'team_manager'@'localhost'</td><td>0 row(s) affected</td><td>0.002 sec</td></tr>
+  <tr><td>8</td><td>02:22:10</td><td>FLUSH PRIVILEGES</td><td>0 row(s) affected</td><td>0.003 sec</td></tr>
+</table>
+
+<p style="margin: 8px 0 2px 0;"><strong>Successful Operations (Executed as playgrid_admin):</strong></p>
+<div class="wb-grid-container">
+  <div class="wb-grid-toolbar"><div class="wb-tab">📋 Result Grid</div></div>
+  <table class="wb-grid-table">
+    <tr><th class="wb-row-num">#</th><th>TournamentID</th><th>Name</th><th>Format</th><th>Status</th><th>EntryFeePKR</th><th>PrizePoolPKR</th></tr>
+    <tr><td class="wb-row-num">▶ 1</td><td>1</td><td>Karachi Futsal Premier League 2026</td><td>LEAGUE</td><td>ONGOING</td><td>15000.00</td><td>250000.00</td></tr>
+  </table>
+</div>
+<table class="workbench-log">
+  <tr><th>#</th><th>Time</th><th>Action</th><th>Message</th></tr>
+  <tr><td><span class="status-dot-green"></span> 9</td><td>02:24:10</td><td>SELECT * FROM tournaments WHERE TournamentID = 1</td><td>1 row(s) returned (0.000 sec)</td></tr>
+  <tr><td><span class="status-dot-green"></span> 10</td><td>02:24:15</td><td>INSERT INTO players VALUES (106, 'Zain Ul Abideen', '42201-9988776-1', '2002-05-18', 'DEFENDER', 1, 5)</td><td>1 row(s) affected (0.008 sec)</td></tr>
+  <tr><td><span class="status-dot-green"></span> 11</td><td>02:24:20</td><td>UPDATE venues SET Capacity = 650 WHERE VenueID = 1</td><td>1 row(s) affected Rows matched: 1 Changed: 1</td></tr>
+  <tr><td><span class="status-dot-green"></span> 12</td><td>02:24:25</td><td>DELETE FROM players WHERE PlayerID = 106</td><td>1 row(s) affected (0.006 sec)</td></tr>
+</table>
+
+<p style="margin: 8px 0 2px 0;"><strong>Failed Operation (Executed as team_manager):</strong></p>
+<table class="workbench-log">
+  <tr><th>#</th><th>Time</th><th>Action</th><th>Message</th></tr>
+  <tr>
+    <td><span class="status-dot-red"></span> 13</td>
+    <td>02:26:02</td>
+    <td>INSERT INTO tournaments VALUES (6, 'Unauthorized Hacker Tournament', 'KNOCKOUT', 'DRAFT', '2026-09-01', '2026-09-10', 50000.00, 1000000.00, 1, 3)</td>
+    <td style="color: #b30000; font-weight: bold;">Error Code: 1142. INSERT command denied to user 'team_manager'@'localhost' for table 'tournaments'</td>
+  </tr>
+</table>
+
+<hr class="section-divider">
+
+<h4 class="section-heading">Security Explanation</h4>
+<p>
+Database security is important because it protects tournament records and financial prize money data from unauthorized access and misuse. In this system, different users are given different permissions according to their operational roles. The admin user can insert, update, delete, and view data, while the team manager user has limited access restricted to viewing schedules and registering team players. Revoking privileges prevents users from performing unauthorized actions such as creating fake tournaments, modifying match outcomes, or altering prize pool values. This improves data safety, privacy, and integrity in the PLAYGRID database.
+</p>
+
+</body>
+</html>
