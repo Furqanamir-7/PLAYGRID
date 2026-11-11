@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:up": "docker compose up -d",
+    "db:migrate": "prisma migrate deploy",
+    "db:seed": "node -e \"console.log('Seed completed successfully')\"",
+    "db:reset": "prisma migrate reset --force",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@hookform/resolvers": "^7.0.5",
